@@ -14,10 +14,12 @@ class Content(Base):
     creation_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     last_update_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     type_meta: Mapped[str] = mapped_column(Enum('question', 'post', name='type_meta'),
-                                           nullable=False, default='active')
+                                           nullable=False, default='question')
 
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
-    question_id: Mapped[int] = mapped_column(ForeignKey('question.id'))
+    question_id: Mapped[int] = mapped_column(ForeignKey('question.id'), nullable=True)
 
-    content: Mapped[list['Vote']] = relationship(back_populates='vote')
+    vote: Mapped[list['Vote']] = relationship(back_populates='content')
+    question: Mapped['Question'] = relationship(back_populates='content')
+    user: Mapped['User'] = relationship(back_populates='content')
 

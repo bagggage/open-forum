@@ -12,7 +12,7 @@ class Question(Base):
     title: Mapped[str] = mapped_column(String, nullable=False)
 
     category_id: Mapped[int] = mapped_column(ForeignKey('category.id'))
-    answer_id: Mapped[int] = mapped_column(ForeignKey('content.id'))
+    answer_id: Mapped[int] = mapped_column(ForeignKey('content.id'), nullable=True)
 
     tag: Mapped[list['Tag']] = relationship(secondary=question_tag, back_populates='question')
     category: Mapped['Category'] = relationship(back_populates='question')

@@ -14,4 +14,4 @@ class Vote(Base):
     content_id: Mapped[int] = mapped_column(ForeignKey('content.id'))
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
 
-    vote: Mapped[list['Content']] = relationship(back_populates='content')
+    content: Mapped[list['Content']] = relationship(back_populates='vote')
