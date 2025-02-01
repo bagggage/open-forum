@@ -24,6 +24,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     notification: Mapped[list['Notification']] = relationship(back_populates='user')
     answer: Mapped[list['Answer']] = relationship(back_populates='user')
     roles: Mapped['UserRole'] = relationship(back_populates='user')
+    question: Mapped[list['Question']] = relationship(back_populates='user')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

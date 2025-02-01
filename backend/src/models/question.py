@@ -19,9 +19,11 @@ class Question(Base):
                                                nullable=False)
 
     category_id: Mapped[int] = mapped_column(ForeignKey('category.id'))
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
 
     tag: Mapped[list['Tag']] = relationship(secondary=question_tag, back_populates='question')
     category: Mapped['Category'] = relationship(back_populates='question')
     answer: Mapped[list['Answer']] = relationship(back_populates='question')
+    user: Mapped['User'] = relationship(back_populates='question')
 
 
