@@ -11,7 +11,7 @@ class Vote(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
-    content_id: Mapped[int] = mapped_column(ForeignKey('content.id'))
+    answer_id: Mapped[int] = mapped_column(ForeignKey('answer.id'))
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
 
-    content: Mapped[list['Content']] = relationship(back_populates='vote')
+    answer: Mapped[list['Answer']] = relationship(back_populates='vote')

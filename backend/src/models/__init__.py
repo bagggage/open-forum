@@ -1,5 +1,5 @@
+from .answer import Answer
 from .category import Category
-from .content import Content
 from .notification import Notification
 from .question import Question
 from .tag import Tag
@@ -9,7 +9,7 @@ from .many2many.question_tag import question_tag
 
 __all__ = [
     "Question",
-    "Content",
+    "Answer",
     "Category",
     "Notification",
     "Tag",

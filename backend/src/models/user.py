@@ -22,7 +22,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
 
     role_id: Mapped[int] = mapped_column(ForeignKey('role.id'), nullable=False)
     notification: Mapped[list['Notification']] = relationship(back_populates='user')
-    content: Mapped[list['Content']] = relationship(back_populates='user')
+    answer: Mapped[list['Answer']] = relationship(back_populates='user')
     roles: Mapped['UserRole'] = relationship(back_populates='user')
 
     def __init__(self, **kwargs):
