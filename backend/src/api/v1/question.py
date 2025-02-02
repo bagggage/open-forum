@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
-from fastapi import HTTPException
+from fastapi import APIRouter
+from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.db.engine import get_async_session
-from src.schemas.question import QuestionCreate, QuestionResponse
+from src.schemas.question import QuestionCreate
+from src.schemas.question import QuestionResponse
 from src.service.question import create_question_service
 from src.service.question import get_questions_service
 from src.service.question import get_question_service
@@ -41,10 +42,9 @@ async def delete_question_endpoint(
     question_id: int,
     db: AsyncSession = Depends(get_async_session),
 ):
-    user_id = 1 # While auth is not implemented user_id is a mock
-    success = await delete_question_service(db, question_id, user_id)
-    
-    if not success:
-        raise HTTPException(status_code=403, detail="You can delete only your own questions")
-    
+    user_id = 1  # While auth is not implemented user_id is a mock
+
+    await delete_question_service(db, question_id, user_id)
+
     return {"message": "Question deleted successfully"}
+

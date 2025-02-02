@@ -20,5 +20,13 @@ async def get_question_service(db: AsyncSession, question_id: int):
     
     return question
 
-async def delete_question_service(db: AsyncSession, question_id: int, user_id: int) -> bool:
-    return await delete_question(db, question_id, user_id)
+async def delete_question_service(db: AsyncSession, question_id: int, user_id: int):
+    question = await get_question_by_id(db, question_id)
+    
+    if not question:
+        raise HTTPException(status_code=404, detail="Question not found")
+    
+    if question.user_id != user_id:
+        raise HTTPException(status_code=403, detail="You can delete only your own questions")
+    
+    await delete_question(db, question_id)

@@ -8,6 +8,8 @@ from src.models.category import Category
 from src.models.tag import Tag
 from src.models.many2many.question_tag import question_tag
 
+# TODO: implement the service of categories and tags 
+# and make extra logic of verification from this repository 
 async def create_question(db: AsyncSession, question_data: QuestionCreate, user_id: int):
     category = await db.execute(select(Category).filter(Category.name == question_data.category_name))
     category = category.scalars().first()
@@ -57,17 +59,9 @@ async def get_question_by_id(db: AsyncSession, question_id: int):
     )
     return result.scalars().first()
 
-async def delete_question(db: AsyncSession, question_id: int, user_id: int) -> bool:
-    query = select(Question).where(Question.id == question_id)
-    result = await db.execute(query)
-    question = result.scalars().first()
-
-    if not question or question.user_id != user_id:
-        return False
-
+async def delete_question(db: AsyncSession, question_id: int):
     await db.execute(delete(question_tag).where(question_tag.c.question_id == question_id))
 
-    await db.delete(question)
+    query = delete(Question).where(Question.id == question_id)
+    await db.execute(query)
     await db.commit()
-
-    return True
