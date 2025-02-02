@@ -7,7 +7,7 @@ from typing import List
 
 router = APIRouter(prefix="/questions", tags=["Questions"])
 
-@router.post("/", response_model=QuestionResponse)
+@router.post("/create", response_model=QuestionResponse)
 async def create_question_endpoint(
     question_data: QuestionCreate,
     db: AsyncSession = Depends(get_async_session)
@@ -15,7 +15,7 @@ async def create_question_endpoint(
     question = await create_question_service(db, question_data, user_id=1)
     return QuestionResponse.from_orm(question) 
 
-@router.get("/", response_model=List[QuestionResponse])
+@router.get("/all", response_model=List[QuestionResponse])
 async def get_questions_endpoint(
     skip: int = 0,
     limit: int = 10,
