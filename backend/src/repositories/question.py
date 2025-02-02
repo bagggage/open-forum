@@ -49,6 +49,14 @@ async def get_all_questions(db: AsyncSession, skip: int = 0, limit: int = 10):
     )
     return result.unique().scalars().all()
 
+async def get_question_by_id(db: AsyncSession, question_id: int):
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag))
+        .where(Question.id == question_id)
+    )
+    return result.scalars().first()
+
 async def delete_question(db: AsyncSession, question_id: int, user_id: int) -> bool:
     query = select(Question).where(Question.id == question_id)
     result = await db.execute(query)
