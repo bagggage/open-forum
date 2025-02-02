@@ -1,10 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import joinedload
+from sqlalchemy import delete
+from src.schemas.question import QuestionCreate
 from src.models.question import Question
 from src.models.category import Category
 from src.models.tag import Tag
-from src.schemas.question import QuestionCreate
+from src.models.many2many.question_tag import question_tag
 
 async def create_question(db: AsyncSession, question_data: QuestionCreate, user_id: int):
     category = await db.execute(select(Category).filter(Category.name == question_data.category_name))
@@ -46,3 +48,18 @@ async def get_all_questions(db: AsyncSession, skip: int = 0, limit: int = 10):
         .limit(limit)
     )
     return result.unique().scalars().all()
+
+async def delete_question(db: AsyncSession, question_id: int, user_id: int) -> bool:
+    query = select(Question).where(Question.id == question_id)
+    result = await db.execute(query)
+    question = result.scalars().first()
+
+    if not question or question.user_id != user_id:
+        return False
+
+    await db.execute(delete(question_tag).where(question_tag.c.question_id == question_id))
+
+    await db.delete(question)
+    await db.commit()
+
+    return True
