@@ -38,6 +38,11 @@ async def create_question(db: AsyncSession, question_data: QuestionCreate, user_
     return question_with_relations.scalars().first()
 
 
-async def get_questions(db: AsyncSession, skip: int = 0, limit: int = 10):
-    result = await db.execute(select(Question).offset(skip).limit(limit))
-    return result.scalars().all()
+async def get_all_questions(db: AsyncSession, skip: int = 0, limit: int = 10):
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag)) 
+        .offset(skip)
+        .limit(limit)
+    )
+    return result.unique().scalars().all()

@@ -16,5 +16,10 @@ async def create_question_endpoint(
     return QuestionResponse.from_orm(question) 
 
 @router.get("/", response_model=List[QuestionResponse])
-async def get_questions_endpoint(skip: int = 0, limit: int = 10, db: AsyncSession = Depends(get_async_session)):
-    return await get_questions_service(db, skip, limit)
+async def get_questions_endpoint(
+    skip: int = 0,
+    limit: int = 10,
+    db: AsyncSession = Depends(get_async_session)
+):
+    questions = await get_questions_service(db, skip, limit)
+    return [QuestionResponse.from_orm(q) for q in questions]
