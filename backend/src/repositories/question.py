@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import joinedload
 from sqlalchemy import delete
+from sqlalchemy import update
 from src.schemas.question import QuestionCreate
 from src.models.question import Question
 from src.models.category import Category
@@ -65,3 +66,21 @@ async def delete_question(db: AsyncSession, question_id: int):
     query = delete(Question).where(Question.id == question_id)
     await db.execute(query)
     await db.commit()
+
+async def update_question(db: AsyncSession, question_id: int, update_values: dict):
+    query = (
+        update(Question)
+        .where(Question.id == question_id)
+        .values(**update_values)
+        .execution_options(synchronize_session="fetch")
+    )
+
+    await db.execute(query)
+    await db.commit()
+
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag))
+        .where(Question.id == question_id)
+    )
+    return result.scalars().first()

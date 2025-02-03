@@ -4,10 +4,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.db.engine import get_async_session
 from src.schemas.question import QuestionCreate
 from src.schemas.question import QuestionResponse
+from src.schemas.question import QuestionUpdate
 from src.service.question import create_question_service
 from src.service.question import get_questions_service
 from src.service.question import get_question_service
 from src.service.question import delete_question_service
+from src.service.question import update_question_service
 from typing import List
 
 router = APIRouter(prefix="/v1/questions", tags=["Questions"])
@@ -15,18 +17,18 @@ router = APIRouter(prefix="/v1/questions", tags=["Questions"])
 @router.post(
         "/", 
         response_model=QuestionResponse,
-        summary="Create a new question on a forum for authorized user")
+        summary="Create a new question for an authorized user")
 async def create_question(
     question_data: QuestionCreate,
     db: AsyncSession = Depends(get_async_session)
 ):
-    question = await create_question_service(db, question_data, user_id=1)
+    question = await create_question_service(db, question_data, user_id=3)
     return QuestionResponse.from_orm(question) 
 
 @router.get(
         "/", 
         response_model=List[QuestionResponse], 
-        summary="Get a list of all questions with pagination (default amount of elements is 10)")
+        summary="Get a list of all questions with pagination")
 async def get_questions(
     skip: int = 0,
     limit: int = 10,
@@ -59,3 +61,15 @@ async def delete_question(
 
     return {"message": "Question deleted successfully"}
 
+@router.put(
+        "/{question_id}", 
+        response_model=QuestionResponse, 
+        summary="Update a question by its ID")
+async def update_question(
+    question_id: int,
+    update_data: QuestionUpdate,
+    db: AsyncSession = Depends(get_async_session),
+):
+    user_id = 2  # While auth is not implemented user_id is a mock
+    updated_question = await update_question_service(db, question_id, user_id, update_data)
+    return QuestionResponse.from_orm(updated_question)

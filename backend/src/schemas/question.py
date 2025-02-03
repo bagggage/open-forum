@@ -1,6 +1,8 @@
 from pydantic import BaseModel
+from pydantic import Field
 from datetime import datetime
 from typing import List
+from typing import Optional
 
 class QuestionCreate(BaseModel):
     title: str
@@ -31,3 +33,10 @@ class QuestionResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class QuestionUpdate(BaseModel):
+    title: Optional[str] = Field(None, description="Updated title of the question")
+    text: Optional[str] = Field(None, description="Updated text of the question")
+
+    class Config:
+        orm_mode = True
