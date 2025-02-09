@@ -14,6 +14,8 @@ from typing import List
 
 router = APIRouter(prefix="/v1/questions", tags=["Questions"])
 
+USER_ID = 1 # While auth is not implemented user_id is a mock
+
 @router.post(
         "/", 
         response_model=QuestionResponse,
@@ -22,7 +24,7 @@ async def create_question(
     question_data: QuestionCreate,
     db: AsyncSession = Depends(get_async_session)
 ):
-    question = await create_question_service(db, question_data, user_id=3)
+    question = await create_question_service(db, question_data, USER_ID)
     return QuestionResponse.from_orm(question) 
 
 @router.get(
@@ -55,9 +57,7 @@ async def delete_question(
     question_id: int,
     db: AsyncSession = Depends(get_async_session),
 ):
-    user_id = 1  # While auth is not implemented user_id is a mock
-
-    await delete_question_service(db, question_id, user_id)
+    await delete_question_service(db, question_id, USER_ID)
 
     return {"message": "Question deleted successfully"}
 
@@ -70,6 +70,5 @@ async def update_question(
     update_data: QuestionUpdate,
     db: AsyncSession = Depends(get_async_session),
 ):
-    user_id = 2  # While auth is not implemented user_id is a mock
-    updated_question = await update_question_service(db, question_id, user_id, update_data)
+    updated_question = await update_question_service(db, question_id, USER_ID, update_data)
     return QuestionResponse.from_orm(updated_question)

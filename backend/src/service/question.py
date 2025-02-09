@@ -44,7 +44,8 @@ async def update_question_service(db: AsyncSession, question_id: int, user_id: i
     user = await get_user_by_id(db, user_id)
     role = await get_role_by_id(db, user.role_id)
 
-    if question.user_id != user_id and role.role_name != "Moderator":
+    EDITING_ROLE = "Moderator"
+    if question.user_id != user_id and role.role_name != EDITING_ROLE:
         raise HTTPException(status_code=403, detail="You can only edit your own questions or be a Moderator")
 
     update_values = update_data.model_dump(exclude_unset=True)
