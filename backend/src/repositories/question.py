@@ -1,34 +1,57 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.orm import joinedload
 from sqlalchemy import delete
-from src.models.tag import Tag
-from src.schemas.tag import TagCreate
+from sqlalchemy import update
+from src.models.question import Question
+from src.models.many2many.question_tag import question_tag
 
-async def get_tag_by_id(db: AsyncSession, tag_id: int):
-    result = await db.execute(select(Tag).where(Tag.id == tag_id))
-    return result.scalars().first()
+async def create_question(db: AsyncSession, new_question: Question):
+    db.add(new_question)
 
-async def get_tag_by_name(db: AsyncSession, tag_name: str):
-    result = await db.execute(select(Tag).where(Tag.name == tag_name))
-    return result.scalars().first()
-
-async def get_tag_by_names(db: AsyncSession, tag_names: list[str]):
-    result = await db.execute(select(Tag).filter(Tag.name.in_(tag_names)))
-    return result.scalars().all()
-
-async def get_all_tags(db: AsyncSession):
-    result = await db.execute(select(Tag))
-    return result.scalars().all()
-
-async def create_tag(db: AsyncSession, tag_data: TagCreate):
-    new_tag = Tag(name=tag_data.name)
-
-    db.add(new_tag)
     await db.commit()
-    await db.refresh(new_tag)
+    await db.refresh(new_question)
     
-    return new_tag
+    return new_question
 
-async def delete_tag(db: AsyncSession, tag_id: int):
-    await db.execute(delete(Tag).where(Tag.id == tag_id))
+async def get_all_questions(db: AsyncSession, skip: int = 0, limit: int = 10):
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag)) 
+        .offset(skip)
+        .limit(limit)
+    )
+    return result.unique().scalars().all()
+
+async def get_question_by_id(db: AsyncSession, question_id: int):
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag))
+        .where(Question.id == question_id)
+    )
+    return result.scalars().first()
+
+async def delete_question(db: AsyncSession, question_id: int):
+    await db.execute(delete(question_tag).where(question_tag.c.question_id == question_id))
+
+    query = delete(Question).where(Question.id == question_id)
+    await db.execute(query)
     await db.commit()
+
+async def update_question(db: AsyncSession, question_id: int, update_values: dict):
+    query = (
+        update(Question)
+        .where(Question.id == question_id)
+        .values(**update_values)
+        .execution_options(synchronize_session="fetch")
+    )
+
+    await db.execute(query)
+    await db.commit()
+
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag))
+        .where(Question.id == question_id)
+    )
+    return result.scalars().first()

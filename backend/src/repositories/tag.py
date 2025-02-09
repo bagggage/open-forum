@@ -12,6 +12,10 @@ async def get_tag_by_name(db: AsyncSession, tag_name: str):
     result = await db.execute(select(Tag).where(Tag.name == tag_name))
     return result.scalars().first()
 
+async def get_tag_by_names(db: AsyncSession, tag_names: list[str]):
+    result = await db.execute(select(Tag).filter(Tag.name.in_(tag_names)))
+    return result.scalars().all()
+
 async def get_all_tags(db: AsyncSession):
     result = await db.execute(select(Tag))
     return result.scalars().all()
