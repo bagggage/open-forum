@@ -7,11 +7,31 @@ from src.repositories.question import delete_question
 from src.repositories.question import get_question_by_id
 from src.repositories.question import get_all_questions
 from src.repositories.question import update_question
+from src.repositories.tag import get_tag_by_names
 from src.repositories.user import get_user_by_id
 from src.repositories.role import get_role_by_id
+from src.repositories.category import get_category_by_name
+from src.models.question import Question
 
 async def create_question_service(db: AsyncSession, question_data: QuestionCreate, user_id: int):
-    return await create_question(db, question_data, user_id)
+    category = await get_category_by_name(db, question_data.category_name)
+    if not category:
+        raise HTTPException(status_code=404, detail=f"Category '{question_data.category_name}' not found")
+
+    new_question = Question(
+        title=question_data.title,
+        text=question_data.text,
+        category_id=category.id,
+        user_id=user_id
+    )
+
+    tags = await get_tag_by_names(db, question_data.tag_names)
+    if tags:
+        new_question.tag.extend(tags)
+
+    new_question = await create_question(db, new_question)
+    
+    return await get_question_by_id(db, new_question.id)
 
 async def get_questions_service(db: AsyncSession, skip: int = 0, limit: int = 10):
     return await get_all_questions(db, skip, limit)
