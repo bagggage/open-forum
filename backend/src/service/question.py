@@ -7,6 +7,7 @@ from src.repositories.question import delete_question
 from src.repositories.question import get_question_by_id
 from src.repositories.question import get_all_questions
 from src.repositories.question import update_question
+from src.repositories.question import get_questions_by_category
 from src.repositories.tag import get_tag_by_names
 from src.repositories.user import get_user_by_id
 from src.repositories.role import get_role_by_id
@@ -41,6 +42,16 @@ async def get_question_service(db: AsyncSession, question_id: int):
         raise HTTPException(status_code=404, detail="Question not found")
     
     return question
+
+async def get_questions_by_category_name_service(db: AsyncSession, category_name: str):
+    category = await get_category_by_name(db, category_name)
+
+    if not category:
+        raise HTTPException(status_code=404, detail=f"Category '{category_name}' not found")
+
+    questions = await get_questions_by_category(db, category.id)
+
+    return questions
 
 async def delete_question_service(db: AsyncSession, question_id: int, user_id: int):
     question = await get_question_by_id(db, question_id)
