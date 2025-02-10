@@ -28,6 +28,8 @@ async def create_question_service(db: AsyncSession, question_data: QuestionCreat
     tags = await get_tag_by_names(db, question_data.tag_names)
     if tags:
         new_question.tag.extend(tags)
+    
+    #return await create_question(db, new_question)
 
     new_question = await create_question(db, new_question)
     
@@ -72,4 +74,6 @@ async def update_question_service(db: AsyncSession, question_id: int, user_id: i
     if not update_values:
         return question
 
-    return await update_question(db, question_id, update_values)
+    await update_question(db, question_id, update_values)
+
+    return await get_question_service(db, question_id)

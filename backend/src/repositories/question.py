@@ -8,7 +8,6 @@ from src.models.many2many.question_tag import question_tag
 
 async def create_question(db: AsyncSession, new_question: Question):
     db.add(new_question)
-
     await db.commit()
     await db.refresh(new_question)
     
@@ -48,10 +47,3 @@ async def update_question(db: AsyncSession, question_id: int, update_values: dic
 
     await db.execute(query)
     await db.commit()
-
-    result = await db.execute(
-        select(Question)
-        .options(joinedload(Question.category), joinedload(Question.tag))
-        .where(Question.id == question_id)
-    )
-    return result.scalars().first()
