@@ -10,6 +10,7 @@ from src.service.question import get_questions_service
 from src.service.question import get_question_service
 from src.service.question import delete_question_service
 from src.service.question import update_question_service
+from src.service.question import get_questions_by_category_name_service
 from typing import List
 
 router = APIRouter(prefix="/v1/questions", tags=["Questions"])
@@ -49,6 +50,17 @@ async def get_question(
 ):
     question = await get_question_service(db, question_id)
     return QuestionResponse.from_orm(question)
+
+@router.get(
+        "/by-category/",
+        response_model=List[QuestionResponse], 
+        summary="Get all questions by category name")
+async def get_questions_by_category_name(
+    category: str, 
+    db: AsyncSession = Depends(get_async_session)
+):
+    questions = await get_questions_by_category_name_service(db, category)
+    return [QuestionResponse.from_orm(q) for q in questions]
 
 @router.delete(
         "/{question_id}",
