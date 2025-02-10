@@ -29,11 +29,7 @@ async def create_question_service(db: AsyncSession, question_data: QuestionCreat
     if tags:
         new_question.tag.extend(tags)
     
-    #return await create_question(db, new_question)
-
-    new_question = await create_question(db, new_question)
-    
-    return await get_question_by_id(db, new_question.id)
+    return await create_question(db, new_question)
 
 async def get_questions_service(db: AsyncSession, skip: int = 0, limit: int = 10):
     return await get_all_questions(db, skip, limit)
