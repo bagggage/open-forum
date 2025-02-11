@@ -12,3 +12,12 @@ async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, use
         raise HTTPException(status_code=404, detail="Question not found")
 
     return await create_answer(db, answer_data, user_id)
+
+
+async def get_answer_service(db: AsyncSession, answer_id: int):
+    answer = await get_answer_by_id(db, answer_id)
+
+    if not answer:
+        raise HTTPException(status_code=404, detail="Answer not found")
+
+    return answer
