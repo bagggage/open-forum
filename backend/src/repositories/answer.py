@@ -3,6 +3,7 @@ from datetime import timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.answer import Answer
 from src.schemas.answer import AnswerCreate
+from sqlalchemy.future import select
 
 async def create_answer(db: AsyncSession, answer_data: AnswerCreate, user_id: int):
     now = datetime.now(timezone.utc).replace(tzinfo=None)
