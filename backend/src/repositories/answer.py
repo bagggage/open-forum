@@ -21,3 +21,7 @@ async def create_answer(db: AsyncSession, answer_data: AnswerCreate, user_id: in
     await db.refresh(new_answer)
 
     return new_answer
+
+async def get_answer_by_id(db: AsyncSession, answer_id: int):
+    result = await db.execute(select(Answer).where(Answer.id == answer_id))
+    return result.scalars().first()
