@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.repositories.answer import create_answer
 from src.repositories.question import get_question_by_id
 from src.schemas.answer import AnswerCreate
-
+from src.repositories.answer import get_answer_by_id
 
 async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, user_id: int):
     question = await get_question_by_id(db, answer_data.question_id)

@@ -5,6 +5,7 @@ from src.db.engine import get_async_session
 from src.service.answer import create_answer_service
 from src.schemas.answer import AnswerCreate
 from src.schemas.answer import AnswerResponse
+from src.service.answer import get_answer_service
 
 router = APIRouter(prefix="/v1/answers", tags=["Answers"])
 
