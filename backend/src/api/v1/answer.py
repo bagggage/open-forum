@@ -20,3 +20,13 @@ async def create_answer(
 ):
     answer = await create_answer_service(db, answer_data, USER_ID)
     return AnswerResponse.from_orm(answer)
+
+@router.get(
+        "/{answer_id}",
+        response_model=AnswerResponse,
+        summary="Get answer by ID")
+async def get_answer(
+    answer_id: int,
+    db: AsyncSession = Depends(get_async_session)
+):
+    return await get_answer_service(db, answer_id)
