@@ -9,6 +9,7 @@ from src.schemas.answer import AnswerResponse
 from src.service.answer import get_answer_service
 from src.service.answer import get_answers_service
 from src.service.answer import get_answers_by_question_service
+from src.service.answer import delete_answer_service
 
 router = APIRouter(prefix="/v1/answers", tags=["Answers"])
 
@@ -57,3 +58,12 @@ async def get_answers_by_question_id(
 ):
     answers = await get_answers_by_question_service(db, question_id)
     return [AnswerResponse.from_orm(q) for q in answers]
+
+@router.delete(
+        "/{answer_id}", 
+        summary="Delete answer by ID")
+async def delete_answer(
+    answer_id: int, 
+    db: AsyncSession = Depends(get_async_session)
+):
+    return await delete_answer_service(db, answer_id)

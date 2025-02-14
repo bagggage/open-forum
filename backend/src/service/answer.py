@@ -6,6 +6,7 @@ from src.repositories.answer import create_answer
 from src.repositories.answer import get_answer_by_id
 from src.repositories.answer import get_all_answers
 from src.repositories.answer import get_answers_by_question
+from src.repositories.answer import delete_answer
 
 async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, user_id: int):
     question = await get_question_by_id(db, answer_data.question_id)
@@ -33,3 +34,12 @@ async def get_answers_by_question_service(db: AsyncSession, question_id: int):
         raise HTTPException(status_code=404, detail="Question not found")
 
     return await get_answers_by_question(db, question_id)
+
+async def delete_answer_service(db: AsyncSession, answer_id: int):
+    answer = await get_answer_by_id(db, answer_id)
+
+    if not answer:
+        raise HTTPException(status_code=404, detail="Answer not found")
+    
+    await delete_answer(db, answer_id)
+    return {"message": "Answer deleted successfully"}

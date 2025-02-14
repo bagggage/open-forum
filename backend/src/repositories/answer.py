@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.answer import Answer
 from src.schemas.answer import AnswerCreate
 from sqlalchemy.future import select
+from sqlalchemy import delete
 
 async def create_answer(db: AsyncSession, answer_data: AnswerCreate, user_id: int):
     now = datetime.now(timezone.utc).replace(tzinfo=None)
@@ -38,3 +39,7 @@ async def get_all_answers(db: AsyncSession, skip: int = 0, limit: int = 10):
 async def get_answers_by_question(db: AsyncSession, question_id: int):
     result = await db.execute(select(Answer).where(Answer.question_id == question_id))
     return result.scalars().all()
+
+async def delete_answer(db: AsyncSession, answer_id: int):
+    await db.execute(delete(Answer).where(Answer.id == answer_id))
+    await db.commit()
