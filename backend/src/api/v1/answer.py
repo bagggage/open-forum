@@ -8,6 +8,7 @@ from src.schemas.answer import AnswerCreate
 from src.schemas.answer import AnswerResponse
 from src.service.answer import get_answer_service
 from src.service.answer import get_answers_service
+from src.service.answer import get_answers_by_question_service
 
 router = APIRouter(prefix="/v1/answers", tags=["Answers"])
 
@@ -44,4 +45,15 @@ async def get_answers(
     db: AsyncSession = Depends(get_async_session)
 ):
     answers = await get_answers_service(db, skip, limit)
+    return [AnswerResponse.from_orm(q) for q in answers]
+
+@router.get(
+        "/by-question/", 
+        response_model=List[AnswerResponse], 
+        summary="Get answer by question ID")
+async def get_answers_by_question_id(
+    question_id: int, 
+    db: AsyncSession = Depends(get_async_session)
+):
+    answers = await get_answers_by_question_service(db, question_id)
     return [AnswerResponse.from_orm(q) for q in answers]

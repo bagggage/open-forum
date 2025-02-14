@@ -34,3 +34,7 @@ async def get_all_answers(db: AsyncSession, skip: int = 0, limit: int = 10):
         .limit(limit)
     )
     return result.scalars().all()
+
+async def get_answers_by_question(db: AsyncSession, question_id: int):
+    result = await db.execute(select(Answer).where(Answer.question_id == question_id))
+    return result.scalars().all()
