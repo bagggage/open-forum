@@ -26,3 +26,11 @@ async def create_answer(db: AsyncSession, answer_data: AnswerCreate, user_id: in
 async def get_answer_by_id(db: AsyncSession, answer_id: int):
     result = await db.execute(select(Answer).where(Answer.id == answer_id))
     return result.scalars().first()
+
+async def get_all_answers(db: AsyncSession, skip: int = 0, limit: int = 10):
+    result = await db.execute(
+        select(Answer)
+        .offset(skip)
+        .limit(limit)
+    )
+    return result.scalars().all()

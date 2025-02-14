@@ -4,6 +4,7 @@ from src.repositories.answer import create_answer
 from src.repositories.question import get_question_by_id
 from src.schemas.answer import AnswerCreate
 from src.repositories.answer import get_answer_by_id
+from src.repositories.answer import get_all_answers
 
 async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, user_id: int):
     question = await get_question_by_id(db, answer_data.question_id)
@@ -13,7 +14,6 @@ async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, use
 
     return await create_answer(db, answer_data, user_id)
 
-
 async def get_answer_service(db: AsyncSession, answer_id: int):
     answer = await get_answer_by_id(db, answer_id)
 
@@ -21,3 +21,6 @@ async def get_answer_service(db: AsyncSession, answer_id: int):
         raise HTTPException(status_code=404, detail="Answer not found")
 
     return answer
+
+async def get_answers_service(db: AsyncSession, skip: int = 0, limit: int = 10):
+    return await get_all_answers(db, skip, limit)

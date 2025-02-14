@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -6,6 +7,7 @@ from src.service.answer import create_answer_service
 from src.schemas.answer import AnswerCreate
 from src.schemas.answer import AnswerResponse
 from src.service.answer import get_answer_service
+from src.service.answer import get_answers_service
 
 router = APIRouter(prefix="/v1/answers", tags=["Answers"])
 
@@ -31,3 +33,15 @@ async def get_answer(
     db: AsyncSession = Depends(get_async_session)
 ):
     return await get_answer_service(db, answer_id)
+
+@router.get(
+        "/", 
+        response_model=List[AnswerResponse], 
+        summary="Get a list of all answers with pagination")
+async def get_answers(
+    skip: int = 0,
+    limit: int = 10,
+    db: AsyncSession = Depends(get_async_session)
+):
+    answers = await get_answers_service(db, skip, limit)
+    return [AnswerResponse.from_orm(q) for q in answers]
