@@ -18,21 +18,21 @@ current_user = fastapi_users.current_user()
 
 auth_router.include_router(
     fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
+    prefix="/v1/auth/jwt",
     tags=["auth"],
 )
 auth_router.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
-    prefix="/auth",
+    prefix="/v1/auth",
     tags=["auth"],
 )
 auth_router.include_router(
     fastapi_users.get_verify_router(UserRead),
-    prefix="/auth",
+    prefix="/v1/auth",
     tags=["auth"],
 )
 auth_router.include_router(
     fastapi_users.get_reset_password_router(),
-    prefix="/auth",
+    prefix="/v1/auth",
     tags=["auth"],
 )

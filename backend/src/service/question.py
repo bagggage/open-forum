@@ -58,7 +58,7 @@ async def delete_question_service(db: AsyncSession, question_id: int, user_id: i
         raise HTTPException(status_code=404, detail="Question not found")
     
     if question.user_id != user_id:
-        raise HTTPException(status_code=403, detail="You can delete only your own questions")
+        raise HTTPException(status_code=403, detail="Can delete only own questions")
     
     await delete_question(db, question_id)
 
@@ -73,7 +73,7 @@ async def update_question_service(db: AsyncSession, question_id: int, user_id: i
 
     EDITING_ROLE = "Moderator"
     if question.user_id != user_id and role.role_name != EDITING_ROLE:
-        raise HTTPException(status_code=403, detail="You can only edit your own questions or be a Moderator")
+        raise HTTPException(status_code=403, detail="Can only edit own questions or be a Moderator")
 
     update_values = update_data.model_dump(exclude_unset=True)
     if not update_values:

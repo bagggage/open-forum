@@ -1,5 +1,4 @@
 import asyncio
-
 import uvicorn
 from fastapi import FastAPI
 from src.api.v1 import question
