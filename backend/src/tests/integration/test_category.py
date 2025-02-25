@@ -22,10 +22,9 @@ class TestCategory:
         )
 
         assert response.status_code == 200
-        created_category = response.json()
-        TestCategory.category_id = created_category["id"]
+        TestCategory.category_id = response.json()["id"]
 
-    @pytest.mark.order(9)
+    @pytest.mark.order(11)
     @pytest.mark.asyncio
     async def test_get_category(self, async_client):
         assert TestCategory.category_id is not None
@@ -34,7 +33,7 @@ class TestCategory:
 
         assert response.status_code == 200
 
-    @pytest.mark.order(13)
+    @pytest.mark.order(18)
     @pytest.mark.asyncio
     async def test_delete_category(self, async_client):
         assert TestCategory.category_id is not None

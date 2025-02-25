@@ -10,7 +10,6 @@ class TestTag:
 
         assert response.status_code == 200
         assert isinstance(response.json(), list)
-        print(response.json())
 
     @pytest.mark.order(3)
     @pytest.mark.asyncio
@@ -23,10 +22,9 @@ class TestTag:
         )
 
         assert response.status_code == 200
-        created_tag= response.json()
-        TestTag.tag_id = created_tag["id"]
+        TestTag.tag_id = response.json()["id"]
 
-    @pytest.mark.order(10)
+    @pytest.mark.order(12)
     @pytest.mark.asyncio
     async def test_get_tag(self, async_client):
         assert TestTag.tag_id is not None
@@ -35,7 +33,7 @@ class TestTag:
 
         assert response.status_code == 200
 
-    @pytest.mark.order(14)
+    @pytest.mark.order(19)
     @pytest.mark.asyncio
     async def test_delete_tag(self, async_client):
         assert TestTag.tag_id is not None

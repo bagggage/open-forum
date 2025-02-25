@@ -36,20 +36,22 @@ class TestQuestion:
             json=test_question_data,
             cookies=auth_cookie
         )
+
         assert response.status_code == 200
 
-        created_question = response.json()
-        TestQuestion.question_id = created_question["id"]
+        TestQuestion.question_id = response.json()["id"]
+        pytest.question_id = TestQuestion.question_id
 
-    @pytest.mark.order(8)
+    @pytest.mark.order(10)
     @pytest.mark.asyncio
     async def test_get_question(self, async_client):
         assert TestQuestion.question_id is not None
 
         response = await async_client.get(f"/v1/questions/{TestQuestion.question_id}")
+
         assert response.status_code == 200
 
-    @pytest.mark.order(11)
+    @pytest.mark.order(15)
     @pytest.mark.asyncio
     async def test_update_question(self, async_client, auth_cookie):
         assert TestQuestion.question_id is not None
@@ -64,9 +66,10 @@ class TestQuestion:
             json=updated_data,
             cookies=auth_cookie
         )
+
         assert response.status_code == 200
 
-    @pytest.mark.order(12)
+    @pytest.mark.order(17)
     @pytest.mark.asyncio
     async def test_delete_question(self, async_client, auth_cookie):
         assert TestQuestion.question_id is not None
@@ -75,4 +78,5 @@ class TestQuestion:
             f"/v1/questions/{TestQuestion.question_id}",
             cookies=auth_cookie
         )
+        
         assert response.status_code == 200
