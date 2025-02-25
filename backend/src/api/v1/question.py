@@ -2,7 +2,7 @@ import fastapi_users
 from fastapi import APIRouter
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.utils.dependencies import current_user
+from src.utils.auth_dependencies import current_user
 from src.db.engine import get_async_session
 from src.schemas.question import QuestionCreate
 from src.schemas.question import QuestionResponse

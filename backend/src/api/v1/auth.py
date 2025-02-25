@@ -1,11 +1,9 @@
 from fastapi import APIRouter
 from fastapi_users import FastAPIUsers
-
 from src.schemas.user import UserRead, UserCreate
 from src.service.user_manager import get_user_manager
 from src.service.auth import auth_backend
 from src.models.user import User
-
 
 fastapi_users = FastAPIUsers[User, int](
     get_user_manager,
@@ -13,8 +11,6 @@ fastapi_users = FastAPIUsers[User, int](
 )
 
 auth_router = APIRouter()
-
-current_user = fastapi_users.current_user()
 
 auth_router.include_router(
     fastapi_users.get_auth_router(auth_backend),
