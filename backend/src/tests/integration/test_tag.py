@@ -3,6 +3,7 @@ import pytest
 class TestTag:
     tag_id = None
 
+    @pytest.mark.order(4)
     @pytest.mark.asyncio
     async def test_get_tags(self, async_client):
         response = await async_client.get("/v1/tags/")
@@ -11,9 +12,10 @@ class TestTag:
         assert isinstance(response.json(), list)
         print(response.json())
 
+    @pytest.mark.order(3)
     @pytest.mark.asyncio
     async def test_create_tag(self, async_client):
-        tag_data = {"name": "New Test Tag"}
+        tag_data = {"name": "test_tag"}
 
         response = await async_client.post(
             "/v1/tags/",
@@ -24,6 +26,7 @@ class TestTag:
         created_tag= response.json()
         TestTag.tag_id = created_tag["id"]
 
+    @pytest.mark.order(10)
     @pytest.mark.asyncio
     async def test_get_tag(self, async_client):
         assert TestTag.tag_id is not None
@@ -32,6 +35,7 @@ class TestTag:
 
         assert response.status_code == 200
 
+    @pytest.mark.order(14)
     @pytest.mark.asyncio
     async def test_delete_tag(self, async_client):
         assert TestTag.tag_id is not None

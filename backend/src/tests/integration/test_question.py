@@ -3,6 +3,7 @@ import pytest
 class TestQuestion:
     question_id = None
 
+    @pytest.mark.order(7)
     @pytest.mark.asyncio
     async def test_get_questions(self, async_client):
         response = await async_client.get("/v1/questions/")
@@ -10,6 +11,7 @@ class TestQuestion:
         assert response.status_code == 200
         assert isinstance(response.json(), list)
 
+    @pytest.mark.order(6)
     @pytest.mark.asyncio
     async def test_get_questions_by_category_name(self, async_client):
         CATEGORY_NAME = "test_category"
@@ -19,13 +21,14 @@ class TestQuestion:
         assert response.status_code == 200
         assert isinstance(response.json(), list)
         
+    @pytest.mark.order(5)
     @pytest.mark.asyncio
     async def test_create_question(self, async_client, auth_cookie):
         test_question_data = {
             "title": "Test Question",
             "text": "This is a test question.",
             "category_name": "test_category",
-            "tag_names": []
+            "tag_names": ["test_tag"]
         }
 
         response = await async_client.post(
@@ -38,6 +41,7 @@ class TestQuestion:
         created_question = response.json()
         TestQuestion.question_id = created_question["id"]
 
+    @pytest.mark.order(8)
     @pytest.mark.asyncio
     async def test_get_question(self, async_client):
         assert TestQuestion.question_id is not None
@@ -45,6 +49,7 @@ class TestQuestion:
         response = await async_client.get(f"/v1/questions/{TestQuestion.question_id}")
         assert response.status_code == 200
 
+    @pytest.mark.order(11)
     @pytest.mark.asyncio
     async def test_update_question(self, async_client, auth_cookie):
         assert TestQuestion.question_id is not None
@@ -61,6 +66,7 @@ class TestQuestion:
         )
         assert response.status_code == 200
 
+    @pytest.mark.order(12)
     @pytest.mark.asyncio
     async def test_delete_question(self, async_client, auth_cookie):
         assert TestQuestion.question_id is not None
