@@ -10,6 +10,7 @@ from src.service.answer import get_answer_service
 from src.service.answer import get_answers_service
 from src.service.answer import get_answers_by_question_service
 from src.service.answer import delete_answer_service
+from src.service.answer import update_best_answer_service
 from src.models import User
 from typing import List
 
@@ -63,6 +64,18 @@ async def get_answers_by_question_id(
 ):
     answers = await get_answers_by_question_service(db, question_id)
     return [AnswerResponse.from_orm(q) for q in answers]
+
+@router.put(
+    "/{answer_id}",
+    response_model=AnswerResponse,
+    summary="Marks an answer as solution by its ID")
+async def update_best_answer(
+    answer_id: int,
+    db: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_user)
+):
+    updated_question = await update_best_answer_service(db, answer_id, user.id)
+    return AnswerResponse.from_orm(updated_question)
 
 @router.delete(
     "/{answer_id}", 
