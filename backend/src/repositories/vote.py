@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.vote import Vote
 from sqlalchemy.future import select
+from sqlalchemy import delete
 from src.schemas.vote import VoteCreate
 
 async def create_vote(db: AsyncSession, vote: VoteCreate, user_id: int):
@@ -30,3 +31,7 @@ async def get_votes_by_answer_id(db: AsyncSession, answer_id: int):
 async def get_vote_by_id(db: AsyncSession, vote_id: int):
     result = await db.execute(select(Vote).where(Vote.id == vote_id))
     return result.scalars().first()
+
+async def delete_vote(db: AsyncSession, vote_id: int):
+    await db.execute(delete(Vote).where(Vote.id == vote_id))
+    await db.commit()
