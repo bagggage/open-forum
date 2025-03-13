@@ -5,6 +5,7 @@ from src.utils.auth_dependencies import current_user
 from src.db.engine import get_async_session
 from src.service.vote import create_vote_service
 from src.service.vote import get_votes_service
+from src.service.vote import get_vote_service
 from src.schemas.vote import VoteCreate
 from src.schemas.vote import VoteResponse
 from src.models import User
@@ -37,4 +38,15 @@ async def get_votes(
 ):
     votes = await get_votes_service(db, skip, limit)
     return [VoteResponse.from_orm(v) for v in votes]
+
+@router.get(
+    "/{vote_id}",
+    response_model=VoteResponse,
+    summary="Get vote by ID"
+)
+async def get_vote(
+    vote_id: int,
+    db: AsyncSession = Depends(get_async_session)
+):
+    return await get_vote_service(db, vote_id)
 
