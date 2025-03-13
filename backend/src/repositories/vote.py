@@ -26,3 +26,7 @@ async def get_all_votes(db: AsyncSession, skip: int = 0, limit: int = 10):
 async def get_votes_by_answer_id(db: AsyncSession, answer_id: int):
     result = await db.execute(select(Vote).where(Vote.answer_id == answer_id))
     return result.scalars().all()
+
+async def get_vote_by_id(db: AsyncSession, vote_id: int):
+    result = await db.execute(select(Vote).where(Vote.id == vote_id))
+    return result.scalars().first()
