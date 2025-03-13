@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.schemas.vote import VoteCreate
 from src.repositories.vote import create_vote
+from src.repositories.vote import get_all_votes
 from src.repositories.vote import get_votes_by_answer_id
 from src.repositories.answer import get_answer_by_id
 
@@ -17,3 +18,6 @@ async def create_vote_service(db: AsyncSession, vote_data: VoteCreate, user_id: 
         raise HTTPException(status_code=403, detail="User has already voted for this answer")
     
     return await create_vote(db, vote_data, user_id)
+
+async def get_votes_service(db: AsyncSession, skip: int = 0, limit: int = 10):
+    return await get_all_votes(db, skip, limit)
