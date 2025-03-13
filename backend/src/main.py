@@ -5,6 +5,7 @@ from src.api.v1 import question
 from src.api.v1 import category
 from src.api.v1 import tag
 from src.api.v1 import answer
+from src.api.v1 import vote
 from src.api.v1.auth import auth_router
 
 app = FastAPI()
@@ -13,6 +14,7 @@ app.include_router(question.router)
 app.include_router(category.router)
 app.include_router(tag.router)
 app.include_router(answer.router)
+app.include_router(vote.router)
 app.include_router(auth_router)
 
 
