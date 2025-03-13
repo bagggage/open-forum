@@ -20,6 +20,14 @@ async def create_vote_service(db: AsyncSession, vote_data: VoteCreate, user_id: 
     
     return await create_vote(db, vote_data, user_id)
 
+async def get_votes_for_answer_service(db: AsyncSession, answer_id: int):
+    answer = await get_answer_by_id(db, answer_id)
+
+    if not answer:
+        raise HTTPException(status_code=404, detail="Answer not found")
+
+    return await get_votes_by_answer_id(db, answer_id)
+
 async def get_votes_service(db: AsyncSession, skip: int = 0, limit: int = 10):
     return await get_all_votes(db, skip, limit)
 
