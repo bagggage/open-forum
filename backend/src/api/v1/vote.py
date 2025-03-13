@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.utils.auth_dependencies import current_user
 from src.db.engine import get_async_session
 from src.service.vote import create_vote_service
+from src.service.vote import delete_vote_service
 from src.service.vote import get_votes_service
 from src.service.vote import get_vote_service
 from src.service.vote import get_votes_for_answer_service
@@ -62,3 +63,14 @@ async def get_votes_for_answer(
 ):
     votes = await get_votes_for_answer_service(db, answer_id)
     return [VoteResponse.from_orm(v) for v in votes]
+
+@router.delete(
+    "/{vote_id}", 
+    summary="Removes a vote by its ID"
+)
+async def delete_vote(
+    vote_id: int, 
+    db: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_user)
+):
+    return await delete_vote_service(db, vote_id, user.id)
