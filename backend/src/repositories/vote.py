@@ -15,6 +15,14 @@ async def create_vote(db: AsyncSession, vote: VoteCreate, user_id: int):
     
     return new_vote
 
+async def get_all_votes(db: AsyncSession, skip: int = 0, limit: int = 10):
+    result = await db.execute(
+        select(Vote)
+        .offset(skip)
+        .limit(limit)
+    )
+    return result.scalars().all()
+
 async def get_votes_by_answer_id(db: AsyncSession, answer_id: int):
     result = await db.execute(select(Vote).where(Vote.answer_id == answer_id))
     return result.scalars().all()
