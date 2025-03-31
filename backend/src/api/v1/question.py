@@ -41,8 +41,7 @@ async def get_questions(
     limit: int = 10,
     db: AsyncSession = Depends(get_async_session)
 ):
-    questions = await get_questions_service(db, skip, limit)
-    return [QuestionResponse.from_orm(q) for q in questions]
+    return await get_questions_service(db, skip, limit)
 
 @router.get(
     "/{question_id}", 
@@ -53,8 +52,7 @@ async def get_question(
     question_id: int,
     db: AsyncSession = Depends(get_async_session)
 ):
-    question = await get_question_service(db, question_id)
-    return QuestionResponse.from_orm(question)
+    return await get_question_service(db, question_id)
 
 @router.get(
     "/by-category/",

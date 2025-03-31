@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.schemas.question import QuestionCreate
 from src.schemas.question import QuestionUpdate
+from src.schemas.question import QuestionResponse
 from src.repositories.question import create_question
 from src.repositories.question import delete_question
 from src.repositories.question import get_question_by_id
@@ -33,7 +34,15 @@ async def create_question_service(db: AsyncSession, question_data: QuestionCreat
     return await create_question(db, new_question)
 
 async def get_questions_service(db: AsyncSession, skip: int = 0, limit: int = 10):
-    return await get_all_questions(db, skip, limit)
+    questions = await get_all_questions(db, skip, limit)
+
+    result = []
+    for question in questions:
+        user = await get_user_by_id(db, question.user_id)
+        question_response = QuestionResponse.from_orm(question, user_name=user.name)
+        result.append(question_response)
+
+    return result
 
 async def get_question_service(db: AsyncSession, question_id: int):
     question = await get_question_by_id(db, question_id)
@@ -41,7 +50,8 @@ async def get_question_service(db: AsyncSession, question_id: int):
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
     
-    return question
+    user = await get_user_by_id(db, question.user_id)
+    return QuestionResponse.from_orm(question, user_name=user.name)
 
 async def get_questions_by_category_name_service(db: AsyncSession, category_name: str):
     category = await get_category_by_name(db, category_name)
