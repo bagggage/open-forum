@@ -31,3 +31,6 @@ export const fetchCategories = () =>
 // Вопросы
 export const fetchQuestions = (skip = 0, limit = 10) =>
   handleRequest(() => apiClient.get('/v1/questions/', { params: { skip, limit } }));
+
+export const fetchQuestionsByCategory = (categoryName) =>
+  handleRequest(() => apiClient.get('/v1/questions/by-category/', { params: { category: categoryName } }));
