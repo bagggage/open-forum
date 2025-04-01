@@ -31,7 +31,9 @@ async def create_question_service(db: AsyncSession, question_data: QuestionCreat
     if tags:
         new_question.tag.extend(tags)
     
-    return await create_question(db, new_question)
+    created_question = await create_question(db, new_question)
+    user = await get_user_by_id(db, created_question.user_id)
+    return QuestionResponse.from_orm(created_question, user_name=user.name)
 
 async def get_questions_service(db: AsyncSession, skip: int = 0, limit: int = 10):
     questions = await get_all_questions(db, skip, limit)
@@ -59,7 +61,15 @@ async def get_questions_by_category_name_service(db: AsyncSession, category_name
     if not category:
         raise HTTPException(status_code=404, detail=f"Category '{category_name}' not found")
 
-    return await get_questions_by_category(db, category.id)
+    questions = await get_questions_by_category(db, category.id)
+
+    result = []
+    for question in questions:
+        user = await get_user_by_id(db, question.user_id)
+        question_response = QuestionResponse.from_orm(question, user_name=user.name)
+        result.append(question_response)
+
+    return result
 
 async def delete_question_service(db: AsyncSession, question_id: int, user_id: int):
     question = await get_question_by_id(db, question_id)

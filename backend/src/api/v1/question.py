@@ -28,8 +28,7 @@ async def create_question(
     db: AsyncSession = Depends(get_async_session,),
     user: User = Depends(current_user)
 ):
-    question = await create_question_service(db, question_data, user.id)
-    return QuestionResponse.from_orm(question) 
+    return await create_question_service(db, question_data, user.id) 
 
 @router.get(
     "/", 
@@ -63,8 +62,7 @@ async def get_questions_by_category_name(
     category: str, 
     db: AsyncSession = Depends(get_async_session)
 ):
-    questions = await get_questions_by_category_name_service(db, category)
-    return [QuestionResponse.from_orm(q) for q in questions]
+    return await get_questions_by_category_name_service(db, category)
 
 @router.delete(
     "/{question_id}",
