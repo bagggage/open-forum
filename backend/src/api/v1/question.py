@@ -56,13 +56,15 @@ async def get_question(
 @router.get(
     "/by-category/",
     response_model=List[QuestionResponse], 
-    summary="Get all questions by category name"
+    summary="Get all questions by category name with pagination"
 )
 async def get_questions_by_category_name(
     category: str, 
+    skip: int = 0,
+    limit: int = 10,
     db: AsyncSession = Depends(get_async_session)
 ):
-    return await get_questions_by_category_name_service(db, category)
+    return await get_questions_by_category_name_service(db, category, skip, limit)
 
 @router.delete(
     "/{question_id}",

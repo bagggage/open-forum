@@ -55,13 +55,18 @@ async def get_question_service(db: AsyncSession, question_id: int):
     user = await get_user_by_id(db, question.user_id)
     return QuestionResponse.from_orm(question, user_name=user.name)
 
-async def get_questions_by_category_name_service(db: AsyncSession, category_name: str):
+async def get_questions_by_category_name_service(
+    db: AsyncSession, 
+    category_name: str, 
+    skip: int = 0, 
+    limit: int = 10
+):
     category = await get_category_by_name(db, category_name)
 
     if not category:
         raise HTTPException(status_code=404, detail=f"Category '{category_name}' not found")
 
-    questions = await get_questions_by_category(db, category.id)
+    questions = await get_questions_by_category(db, category.id, skip, limit)
 
     result = []
     for question in questions:
