@@ -28,36 +28,40 @@
       >
         Войти
       </button>
+      <p class="text-center text-gray-600">
+        Нет аккаунта?
+        <router-link to="/register" class="text-blue-600 hover:text-blue-800">
+          Зарегистрироваться
+        </router-link>
+      </p>
     </form>
   </div>
 </template>
-
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { loginUser } from '@/services/authApi';
+import { useStore } from 'vuex';
 
 export default {
-  name: 'LoginView',
   setup() {
     const email = ref('');
     const password = ref('');
     const router = useRouter();
+    const store = useStore();
 
     const login = async () => {
-      console.log('Данные для входа:', { email: email.value, password: password.value });
-      alert('Вы успешно вошли!');
-      router.push('/');
+      try {
+        await loginUser(email.value, password.value);
+        store.dispatch('setUser', { email: email.value });
+        router.push('/profile');
+      } catch (error) {
+        console.error('Ошибка при входе:', error);
+        alert('Неверный email или пароль.');
+      }
     };
 
     return { email, password, login };
   },
 };
 </script>
-
-<style scoped>
-.login-page {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-}
-</style>

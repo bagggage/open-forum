@@ -2,9 +2,9 @@
   <div>
     <ul v-if="filteredQuestions.length" class="space-y-4">
       <li v-for="question in filteredQuestions" :key="question.id" class="bg-white shadow-md rounded-lg p-4">
-        <p class="text-xl font-semibold text-blue-600 hover:text-blue-800">
+        <router-link :to="`/question/${question.id}`" class="block text-xl font-semibold text-blue-600 hover:text-blue-800">
           {{ question.title }}
-        </p>
+        </router-link>
         <div class="flex items-center mt-2 text-sm text-gray-500">
           <span>{{ question.user_name }}</span>
           <span class="mx-2">•</span>
@@ -40,18 +40,9 @@ import { fetchQuestions, fetchQuestionsByCategory } from '@/services/forumApi';
 
 export default {
   props: {
-    categoryName: {
-      type: String,
-      default: '',
-    },
-    searchQuery: {
-      type: String,
-      default: '',
-    },
-    currentPage: {
-      type: Number,
-      default: 0,
-    },
+    categoryName: { type: String, default: '' },
+    searchQuery: { type: String, default: '' },
+    currentPage: { type: Number, default: 0 },
   },
   emits: ['update-page'],
   setup(props, { emit }) {
