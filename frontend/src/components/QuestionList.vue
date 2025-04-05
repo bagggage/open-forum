@@ -34,18 +34,9 @@ import QuestionPreview from './QuestionPreview.vue';
 
 export default {
   props: {
-    categoryName: {
-      type: String,
-      default: '',
-    },
-    searchQuery: {
-      type: String,
-      default: '',
-    },
-    currentPage: {
-      type: Number,
-      default: 0,
-    },
+    categoryName: { type: String, default: '' },
+    searchQuery: { type: String, default: '' },
+    currentPage: { type: Number, default: 0 },
   },
   components: { QuestionPreview },
   emits: ['update-page'],

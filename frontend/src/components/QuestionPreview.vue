@@ -1,6 +1,8 @@
 <template>
     <div class="question-preview">
-        <p>{{ question.title }}</p>
+        <router-link :to="`/question/${question.id}`">
+            <p>{{ question.title }}</p>
+        </router-link>
         <div class="flex items-center mt-2">
           <span>{{ question.user_name }}</span>
           <span class="mx-2">•</span>

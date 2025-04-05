@@ -1,33 +1,37 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import { logoutUser } from '@/services/authApi';
 
 export default createStore({
-  state() {
-    return {
-      isAuthenticated: false,
-      user: null
-    };
-  },
-  getters: {
-    isAuthenticated: (state) => state.isAuthenticated,
+  state: {
+    user: null,
+    isAuthenticated: false,
   },
   mutations: {
-    login(state, userData) {
-      state.isAuthenticated = true;
-      state.user = userData;
+    SET_USER(state, user) {
+      state.user = user;
+      state.isAuthenticated = !!user;
     },
-    logout(state) {
-      state.isAuthenticated = false;
+    LOGOUT(state) {
       state.user = null;
+      state.isAuthenticated = false;
     },
   },
   actions: {
-    login({ commit }, userData) {
-      commit('login', userData);
+    setUser({ commit }, user) {
+      commit('SET_USER', user);
     },
-    logout({ commit }) {
-      commit('logout');
+    async logout({ commit }) {
+      try {
+        await logoutUser();
+        commit('LOGOUT');
+      } catch (error) {
+        console.error('Ошибка при выходе:', error);
+        throw error;
+      }
     },
   },
-  modules: {
-  }
-})
+  getters: {
+    isAuthenticated: (state) => state.isAuthenticated,
+    user: (state) => state.user,
+  },
+});

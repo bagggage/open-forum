@@ -11,14 +11,6 @@ const handleRequest = async (request) => {
     return response.data;
   } catch (error) {
     console.error('API Error:', error);
-    if (error.response) {
-      console.error('Response Data:', error.response.data);
-      console.error('Status Code:', error.response.status);
-    } else if (error.request) {
-      console.error('No response received:', error.request);
-    } else {
-      console.error('Error Message:', error.message);
-    }
     throw error;
   }
 };
@@ -31,3 +23,15 @@ export const fetchQuestions = (skip = 0, limit = 10) =>
 
 export const fetchQuestionsByCategory = (categoryName, skip = 0, limit = 10) =>
   handleRequest(() => apiClient.get('/v1/questions/by-category/', { params: { category: categoryName, skip, limit } }));
+
+export const fetchQuestionById = (questionId) =>
+  handleRequest(() => apiClient.get(`/v1/questions/${questionId}`));
+
+export const fetchAnswersByQuestionId = (questionId) =>
+  handleRequest(() => apiClient.get('/v1/answers/by-question/', { params: { question_id: questionId } }));
+
+export const createQuestion = (questionData) =>
+  handleRequest(() => apiClient.post('/v1/questions/', questionData));
+
+export const fetchTags = () =>
+  handleRequest(() => apiClient.get('/v1/tags'));
