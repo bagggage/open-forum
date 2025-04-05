@@ -35,3 +35,6 @@ export const createQuestion = (questionData) =>
 
 export const fetchTags = () =>
   handleRequest(() => apiClient.get('/v1/tags'));
+
+export const createAnswer = (answerData) =>
+  handleRequest(() => apiClient.post('/v1/answers/', answerData));

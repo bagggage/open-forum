@@ -17,7 +17,9 @@ async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, use
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
 
-    return await create_answer(db, answer_data, user_id)
+    created_answer = await create_answer(db, answer_data, user_id)
+    user = await get_user_by_id(db, created_answer.user_id)
+    return AnswerResponse.from_orm(created_answer, user_name=user.name)
 
 async def get_answer_service(db: AsyncSession, answer_id: int):
     answer = await get_answer_by_id(db, answer_id)
