@@ -44,10 +44,7 @@ export default {
     const router = useRouter();
 
     const login = async () => {
-      // Здесь должна быть логика отправки данных на сервер
       console.log('Данные для входа:', { email: email.value, password: password.value });
-
-      // Имитация успешного входа
       alert('Вы успешно вошли!');
       router.push('/');
     };

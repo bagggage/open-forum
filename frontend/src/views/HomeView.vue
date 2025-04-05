@@ -2,13 +2,23 @@
   <div class="home">
     <h1 class="text-3xl font-bold mb-6">Добро пожаловать на форум</h1>
 
-    <!-- Выбор категории -->
+    <section class="mb-4">
+      <label for="search-input" class="block text-sm font-medium text-gray-700">Поиск:</label>
+      <input
+        id="search-input"
+        v-model="searchQuery"
+        @input="filterQuestions"
+        placeholder="Введите ключевое слово..."
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+      />
+    </section>
+
     <section class="mb-8">
       <label for="category-select" class="block text-sm font-medium text-gray-700">Выберите категорию:</label>
       <select
         id="category-select"
         v-model="selectedCategory"
-        @change="filterQuestions"
+        @change="resetPagination"
         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
       >
         <option value="">Все категории</option>
@@ -18,10 +28,14 @@
       </select>
     </section>
 
-    <!-- Вопросы -->
     <section>
       <h2 class="text-2xl font-bold mb-4">Последние вопросы</h2>
-      <QuestionList :categoryName="selectedCategory" />
+      <QuestionList
+        :categoryName="selectedCategory"
+        :searchQuery="searchQuery"
+        :currentPage="currentPage"
+        @update-page="updatePage"
+      />
     </section>
   </div>
 </template>
@@ -37,16 +51,22 @@ export default {
   setup() {
     const categories = ref([]);
     const selectedCategory = ref('');
+    const searchQuery = ref('');
+    const currentPage = ref(0);
 
     onMounted(async () => {
       categories.value = await fetchCategories();
     });
 
-    const filterQuestions = () => {
-      // При выборе категории компонент QuestionList автоматически обновится
+    const resetPagination = () => {
+      currentPage.value = 0;
     };
 
-    return { categories, selectedCategory, filterQuestions };
+    const updatePage = (newPage) => {
+      currentPage.value = newPage;
+    };
+
+    return { categories, selectedCategory, searchQuery, currentPage, resetPagination, updatePage };
   },
 };
 </script>

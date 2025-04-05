@@ -2,7 +2,6 @@
   <div class="category-list-page">
     <h1 class="text-3xl font-bold mb-6">Категории</h1>
 
-    <!-- Список категорий -->
     <section>
       <CategoryList />
     </section>

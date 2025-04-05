@@ -21,7 +21,6 @@ export default {
     const router = useRouter();
 
     const logout = () => {
-      // Здесь должна быть логика выхода (например, очистка токена)
       console.log('Пользователь вышел');
       router.push('/login');
     };
