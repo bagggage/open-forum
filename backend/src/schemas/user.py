@@ -2,6 +2,22 @@ from fastapi_users import schemas
 from pydantic import BaseModel, EmailStr
 
 
+class UserResponse(BaseModel):
+    name: str
+    email: EmailStr
+    role_name: str
+
+    class Config:
+        orm_mode = True
+
+    @classmethod
+    def from_orm(cls, user, role_name: str = None):
+        return cls(
+            name=user.name,
+            email=user.email,
+            role_name=role_name,
+        )
+
 class UserRead(schemas.BaseUser[int]):
 
     id: int
