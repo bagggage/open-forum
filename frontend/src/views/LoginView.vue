@@ -40,7 +40,6 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { loginUser } from '@/services/authApi';
 import { useStore } from 'vuex';
 
 export default {
@@ -52,8 +51,7 @@ export default {
 
     const login = async () => {
       try {
-        await loginUser(email.value, password.value);
-        store.dispatch('setUser', { email: email.value });
+        await store.dispatch('login', { email: email.value, password: password.value });
         router.push('/profile');
       } catch (error) {
         console.error('Ошибка при входе:', error);

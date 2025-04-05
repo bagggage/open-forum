@@ -118,16 +118,16 @@ export default {
       }
     };
 
-    return { 
-      title, 
-      text, 
-      category, 
-      selectedTag, 
-      selectedTags, 
-      categories, 
-      availableTags, 
-      addTag, 
-      submitQuestion
+    return {
+      title,
+      text,
+      category,
+      selectedTag,
+      selectedTags,
+      categories,
+      availableTags,
+      addTag,
+      submitQuestion,
     };
   },
 };

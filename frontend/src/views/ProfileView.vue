@@ -2,7 +2,9 @@
   <div class="profile-page">
     <h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
     <div v-if="user" class="bg-white shadow-md rounded-lg p-4">
+      <p><strong>Имя:</strong> {{ user.name }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Роль:</strong> {{ user.role_name }}</p>
       <button
         @click="logout"
         class="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -13,6 +15,7 @@
     <p v-else>Загрузка...</p>
   </div>
 </template>
+
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
