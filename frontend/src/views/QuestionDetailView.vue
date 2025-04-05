@@ -8,6 +8,16 @@
           <span class="mx-2">•</span>
           <span>{{ formatDate(question.creation_time) }}</span>
         </div>
+        <div v-if="question.tag_names && question.tag_names.length" class="mt-4">
+          <strong>Теги:</strong>
+          <span
+            v-for="tag in question.tag_names"
+            :key="tag"
+            class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full ml-2"
+          >
+            {{ tag }}
+          </span>
+        </div>
       </div>
       <h2 class="text-2xl font-bold mb-4">Ответы</h2>
       <ul class="space-y-4">
@@ -31,13 +41,18 @@
   export default {
     setup() {
       const route = useRoute();
-      const question = ref({});
+      const question = ref({ tag_names: [] });
       const answers = ref([]);
   
       const loadQuestionAndAnswers = async () => {
-        const questionId = parseInt(route.params.id);
-        question.value = await fetchQuestionById(questionId);
-        answers.value = await fetchAnswersByQuestionId(questionId);
+        try {
+          const questionData = await fetchQuestionById(route.params.id);
+          question.value = questionData;
+          answers.value = await fetchAnswersByQuestionId(route.params.id);
+        } catch (error) {
+          console.error('Ошибка при загрузке вопроса:', error);
+          alert('Не удалось загрузить вопрос.');
+        }
       };
   
       const formatDate = (date) => {

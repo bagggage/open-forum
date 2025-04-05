@@ -29,3 +29,9 @@ export const fetchQuestionById = (questionId) =>
 
 export const fetchAnswersByQuestionId = (questionId) =>
   handleRequest(() => apiClient.get('/v1/answers/by-question/', { params: { question_id: questionId } }));
+
+export const createQuestion = (questionData) =>
+  handleRequest(() => apiClient.post('/v1/questions/', questionData));
+
+export const fetchTags = () =>
+  handleRequest(() => apiClient.get('/v1/tags'));

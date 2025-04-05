@@ -5,8 +5,15 @@
       <div class="space-x-4">
         <router-link to="/" class="text-white hover:text-gray-300">Главная</router-link>
         <router-link to="/categories" class="text-white hover:text-gray-300">Категории</router-link>
-        <router-link v-if="isAuthenticated" to="/profile" class="text-white hover:text-gray-300">Личный кабинет</router-link>
-        <router-link v-else to="/login" class="text-white hover:text-gray-300">Вход</router-link>
+        <router-link
+          v-if="isAuthenticated"
+          to="/ask"
+          class="text-white hover:text-gray-300"
+        >
+          Создать вопрос
+        </router-link>
+        <router-link v-if="!isAuthenticated" to="/login" class="text-white hover:text-gray-300">Вход</router-link>
+        <router-link v-else to="/profile" class="text-white hover:text-gray-300">Личный кабинет</router-link>
       </div>
     </div>
   </nav>
@@ -17,7 +24,7 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
-  name: 'Header',
+  name: 'AppHeader',
   setup() {
     const store = useStore();
     const isAuthenticated = computed(() => store.getters.isAuthenticated);
