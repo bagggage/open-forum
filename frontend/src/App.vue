@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <Header />
-    <main class="container mx-auto p-6">
+    <main class="main-container">
       <router-view />
     </main>
   </div>
@@ -16,6 +16,6 @@ export default {
 };
 </script>
 
-<style>
-@import './assets/style.scss';
+<style lang="scss">
+@use './assets/style.scss';
 </style>

@@ -1,7 +1,103 @@
+$main-width: 55rem;
 
+$grand-font: "Space Grotesk",Inter,Ubuntu,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+$text-font: "";
+$code-font: "";
+
+$bg-color: #FFFFFF;
+$primary-color: #197AFF;
+$secondary-color: #197AFF33;
+
+$border-color: #00000014;
+
+$bg-text-color: #1B2430;
+$bg-text-s-color: #1b24305c;
+$primary-text-color: #FFFFFF;
+$secondary-text-color: $primary-color;
+
+$header-color: $primary-color;
+
+$light-border: solid 2px $border-color;
+
+$light-radius: 0.5rem;
+$fine-radius: 0.7rem;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body {
+    font-family: $grand-font;
+
+    color: $bg-text-color;
+    background-color: $bg-color;
+}
 
 .app-container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+.main-container {
+    max-width: $main-width;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.header {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+
+    border-bottom: $light-border;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1rem;
+
+    color: $primary-color;
+
+    padding: 0.5rem;
+
+    background-color: $secondary-color;
+    border-radius: $fine-radius;
+}
+
+.link-btn {
+    transition: all 0.2s;
+
+    border: $light-border;
+    border-color: transparent;
+    border-radius: $light-radius;
+
+    padding: 0.5rem;
+}
+
+.link-btn:hover {
+    transition: all 0.2s;
+    
+    color: $primary-color;
+    border-color: $secondary-color;
+}
+
+.question-preview {
+    transition: border-color 0.2s;
+
+    border: $light-border;
+    border-color: $border-color;
+    border-radius: $light-radius;
+
+    padding: 0.7rem;
+
+    p {
+        font-weight: bold;
+        font-size: large;
+    }
+    span {
+        color: $bg-text-s-color;
+    }
+}
+
+.question-preview:hover {
+    transition: border-color 0.2s;
+
+    border-color: $primary-color;
 }
