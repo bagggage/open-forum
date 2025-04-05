@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1 class="text-3xl font-bold mb-6">Добро пожаловать на форум</h1>
+    <h1>Добро пожаловать на форум</h1>
 
     <section class="mb-4">
       <label for="search-input" class="block text-sm font-medium text-gray-700">Поиск:</label>
@@ -29,7 +29,7 @@
     </section>
 
     <section>
-      <h2 class="text-2xl font-bold mb-4">Последние вопросы</h2>
+      <h2>Последние вопросы</h2>
       <QuestionList
         :categoryName="selectedCategory"
         :searchQuery="searchQuery"
@@ -70,9 +70,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.home {
-  padding: 20px;
-}
-</style>

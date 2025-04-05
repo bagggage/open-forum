@@ -11,6 +11,7 @@ $secondary-color: #197AFF33;
 $border-color: #00000014;
 
 $bg-text-color: #1B2430;
+$bg-text-color-l: #495059;
 $bg-text-s-color: #1b24305c;
 $primary-text-color: #FFFFFF;
 $secondary-text-color: $primary-color;
@@ -40,7 +41,9 @@ body {
 .main-container {
     max-width: $main-width;
     width: 90%;
+
     margin: 0 auto;
+    padding: 1.5rem 0 1.5rem 0;
 }
 
 .header {
@@ -61,6 +64,43 @@ body {
     border-radius: $fine-radius;
 }
 
+.main-container h1 {
+    font-weight: 700;
+
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.main-container h2 {
+    font-weight: 700;
+
+    font-size: 1.5rem;
+    line-height: 2rem;
+
+    margin-bottom: 1rem;
+}
+
+.main-container h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+
+    margin-bottom: 1rem;
+}
+
+.main-container p {
+    margin-bottom: 1rem;
+
+    color: $bg-text-color-l;
+}
+
+.main-container hr {
+    border-top: $light-border;
+
+    margin-bottom: 1.5rem;
+}
+
 .link-btn {
     transition: all 0.2s;
 
@@ -78,26 +118,57 @@ body {
     border-color: $secondary-color;
 }
 
-.question-preview {
-    transition: border-color 0.2s;
-
+.question-list {
     border: $light-border;
+    border-radius: $fine-radius;
+}
+
+.question-preview {
+    transition: border-color, background-color 0.2s;
+
+    border-bottom: $light-border;
     border-color: $border-color;
-    border-radius: $light-radius;
 
     padding: 0.7rem;
 
-    p {
-        font-weight: bold;
-        font-size: large;
+    h3 { transition: color 0.2s; }
+    h3:hover {
+        transition: color 0.2s;
+        color: $primary-color;
     }
     span {
         color: $bg-text-s-color;
     }
 }
 
-.question-preview:hover {
-    transition: border-color 0.2s;
+li:last-child > .question-preview {
+    border: none;
+}
 
-    border-color: $primary-color;
+.question-bar {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    span { color: $bg-text-s-color; }
+}
+
+.page-bar {
+    display: flex;
+
+    width: 80%;
+    margin: auto;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 1.5rem;
+}
+
+.login-page, .register-page {
+    h1 { text-align: center; }
+
+    margin: auto;
+    width: fit-content;
 }

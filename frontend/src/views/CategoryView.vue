@@ -16,9 +16,3 @@ export default {
   components: { CategoryList },
 };
 </script>
-
-<style scoped>
-.category-list-page {
-  padding: 20px;
-}
-</style>

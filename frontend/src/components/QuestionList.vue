@@ -1,13 +1,13 @@
 <template>
   <div>
-    <ul v-if="filteredQuestions.length" class="space-y-4">
+    <ul v-if="filteredQuestions.length" class="question-list">
       <li v-for="question in filteredQuestions" :key="question.id">
         <QuestionPreview :question=question />
       </li>
     </ul>
     <p v-else>Нет вопросов, соответствующих вашему запросу.</p>
 
-    <div class="pagination flex justify-between mt-6">
+    <div class="page-bar">
       <button
         @click="prevPage"
         :disabled="currentPage === 0"

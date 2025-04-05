@@ -7,11 +7,7 @@
       <div class="space-x-2">
         <router-link to="/" class="link-btn">Главная</router-link>
         <router-link to="/categories" class="link-btn">Категории</router-link>
-        <router-link
-          v-if="isAuthenticated"
-          to="/ask"
-          class="text-white hover:text-gray-300"
-        >
+        <router-link v-if="isAuthenticated" to="/ask" class="link-btn">
           Создать вопрос
         </router-link>
         <router-link v-if="!isAuthenticated" to="/login" class="link-btn">Вход</router-link>

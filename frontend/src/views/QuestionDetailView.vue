@@ -1,28 +1,19 @@
 <template>
     <div class="question-detail">
-      <h1 class="text-3xl font-bold mb-6">{{ question.title }}</h1>
-      <div class="bg-white shadow-md rounded-lg p-4 mb-6">
-        <p class="text-gray-800">{{ question.text }}</p>
-        <div class="flex items-center mt-2 text-sm text-gray-500">
+      <div class="question-bar">
+        <h1>{{ question.title }}</h1>
+        <div class="flex items-center mb-4">
           <span>{{ question.user_name }}</span>
           <span class="mx-2">•</span>
           <span>{{ formatDate(question.creation_time) }}</span>
         </div>
-        <div v-if="question.tag_names && question.tag_names.length" class="mt-4">
-          <strong>Теги:</strong>
-          <span
-            v-for="tag in question.tag_names"
-            :key="tag"
-            class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full ml-2"
-          >
-            {{ tag }}
-          </span>
-        </div>
       </div>
-      <h2 class="text-2xl font-bold mb-4">Ответы</h2>
+      <p>{{ question.text }}</p>
+      <hr/>
+      <h2>Ответы</h2>
       <ul class="space-y-4">
         <li v-for="answer in answers" :key="answer.id" class="bg-white shadow-md rounded-lg p-4">
-          <p class="text-gray-800">{{ answer.text }}</p>
+          <p>{{ answer.text }}</p>
           <div class="flex items-center mt-2 text-sm text-gray-500">
             <span>{{ answer.user_name }}</span>
             <span class="mx-2">•</span>

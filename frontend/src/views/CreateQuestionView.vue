@@ -1,80 +1,80 @@
 <template>
-    <div class="create-question-page">
-      <h1 class="text-3xl font-bold mb-6">Создать вопрос</h1>
-      <form @submit.prevent="submitQuestion" class="space-y-4">
-        <div>
-          <label for="title" class="block text-sm font-medium text-gray-700">Заголовок</label>
-          <input
-            type="text"
-            id="title"
-            v-model="title"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div>
-          <label for="text" class="block text-sm font-medium text-gray-700">Текст вопроса</label>
-          <textarea
-            id="text"
-            v-model="text"
-            required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div>
-          <label for="category" class="block text-sm font-medium text-gray-700">Категория</label>
+  <div class="create-question-page">
+    <h1 class="text-3xl font-bold mb-6">Создать вопрос</h1>
+    <form @submit.prevent="submitQuestion" class="space-y-4">
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700">Заголовок</label>
+        <input
+          type="text"
+          id="title"
+          v-model="title"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+      <div>
+        <label for="text" class="block text-sm font-medium text-gray-700">Текст вопроса</label>
+        <textarea
+          id="text"
+          v-model="text"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+      <div>
+        <label for="category" class="block text-sm font-medium text-gray-700">Категория</label>
+        <select
+          id="category"
+          v-model="category"
+          required
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option v-for="cat in categories" :key="cat.id" :value="cat.name">
+            {{ cat.name }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Теги</label>
+        <div class="flex items-center space-x-2 mb-2">
           <select
-            id="category"
-            v-model="category"
-            required
+            v-model="selectedTag"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
-            <option v-for="cat in categories" :key="cat.id" :value="cat.name">
-              {{ cat.name }}
+            <option v-for="tag in availableTags" :key="tag.id" :value="tag.name">
+              {{ tag.name }}
             </option>
           </select>
+          <button
+            type="button"
+            @click="addTag"
+            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Добавить тег
+          </button>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Теги</label>
-          <div class="flex items-center space-x-2 mb-2">
-            <select
-              v-model="selectedTag"
-              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option v-for="tag in availableTags" :key="tag.id" :value="tag.name">
-                {{ tag.name }}
-              </option>
-            </select>
-            <button
-              type="button"
-              @click="addTag"
-              class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Добавить тег
-            </button>
-          </div>
-          <div v-if="selectedTags.length" class="flex flex-wrap gap-2">
-            <span
-              v-for="tag in selectedTags"
-              :key="tag"
-              class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full"
-            >
-              {{ tag }}
-            </span>
-          </div>
-          <p v-else class="text-gray-500">Теги не выбраны</p>
+        <div v-if="selectedTags.length" class="flex flex-wrap gap-2">
+          <span
+            v-for="tag in selectedTags"
+            :key="tag"
+            class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full"
+          >
+            {{ tag }}
+          </span>
         </div>
-        <button
-          type="submit"
-          class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Создать
-        </button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
+        <p v-else class="text-gray-500">Теги не выбраны</p>
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Создать
+      </button>
+    </form>
+  </div>
+</template>
+
+<script>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { fetchCategories, fetchTags, createQuestion } from '@/services/forumApi';

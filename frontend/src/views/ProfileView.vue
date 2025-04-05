@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page">
-    <h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
+    <h1>Личный кабинет</h1>
     <div v-if="user" class="bg-white shadow-md rounded-lg p-4">
       <p><strong>Email:</strong> {{ user.email }}</p>
       <button
