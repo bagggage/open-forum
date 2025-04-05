@@ -1,15 +1,8 @@
 <template>
   <div>
     <ul v-if="filteredQuestions.length" class="space-y-4">
-      <li v-for="question in filteredQuestions" :key="question.id" class="bg-white shadow-md rounded-lg p-4">
-        <p class="text-xl font-semibold text-blue-600 hover:text-blue-800">
-          {{ question.title }}
-        </p>
-        <div class="flex items-center mt-2 text-sm text-gray-500">
-          <span>{{ question.user_name }}</span>
-          <span class="mx-2">•</span>
-          <span>{{ formatDate(question.creation_time) }}</span>
-        </div>
+      <li v-for="question in filteredQuestions" :key="question.id">
+        <QuestionPreview :question=question />
       </li>
     </ul>
     <p v-else>Нет вопросов, соответствующих вашему запросу.</p>
@@ -37,6 +30,7 @@
 <script>
 import { ref, watch, onMounted, computed } from 'vue';
 import { fetchQuestions, fetchQuestionsByCategory } from '@/services/forumApi';
+import QuestionPreview from './QuestionPreview.vue';
 
 export default {
   props: {
@@ -53,6 +47,7 @@ export default {
       default: 0,
     },
   },
+  components: { QuestionPreview },
   emits: ['update-page'],
   setup(props, { emit }) {
     const questions = ref([]);
@@ -89,10 +84,6 @@ export default {
       }
     );
 
-    const formatDate = (date) => {
-      return new Date(date).toLocaleDateString();
-    };
-
     const filteredQuestions = computed(() => {
       if (!props.searchQuery) {
         return questions.value;
@@ -119,7 +110,7 @@ export default {
       }
     };
 
-    return { questions, formatDate, filteredQuestions, nextPage, prevPage, hasMorePages };
+    return { questions, filteredQuestions, nextPage, prevPage, hasMorePages };
   },
 };
 </script>
