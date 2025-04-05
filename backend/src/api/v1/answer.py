@@ -62,8 +62,7 @@ async def get_answers_by_question_id(
     question_id: int, 
     db: AsyncSession = Depends(get_async_session)
 ):
-    answers = await get_answers_by_question_service(db, question_id)
-    return [AnswerResponse.from_orm(q) for q in answers]
+    return await get_answers_by_question_service(db, question_id)
 
 @router.put(
     "/{answer_id}",
