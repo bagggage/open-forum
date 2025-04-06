@@ -45,6 +45,14 @@ async def get_questions_by_category(
     )
     return result.unique().scalars().all()
 
+async def get_questions_by_user(db: AsyncSession, user_id: int):
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag))
+        .where(Question.user_id == user_id)
+    )
+    return result.unique().scalars().all()
+
 async def delete_question(db: AsyncSession, question_id: int):
     await db.execute(delete(question_tag).where(question_tag.c.question_id == question_id))
 

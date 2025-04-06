@@ -8,7 +8,7 @@
         <router-link to="/" class="link-btn">Главная</router-link>
         <router-link to="/categories" class="link-btn">Категории</router-link>
         <router-link v-if="isAuthenticated" to="/ask" class="link-btn">
-          Создать вопрос
+          Задать вопрос
         </router-link>
         <router-link v-if="!isAuthenticated" to="/login" class="link-btn">Вход</router-link>
         <router-link v-else to="/profile" class="link-btn">Личный кабинет</router-link>

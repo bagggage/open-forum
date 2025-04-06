@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
-import { logoutUser } from '@/services/authApi';
+import { loginUser, logoutUser } from '@/services/authApi';
+import { fetchCurrentUser } from '@/services/forumApi';
 
 export default createStore({
   state: {
@@ -17,17 +18,21 @@ export default createStore({
     },
   },
   actions: {
-    setUser({ commit }, user) {
-      commit('SET_USER', user);
+    async fetchUser({ commit }) {
+      try {
+        const user = await fetchCurrentUser();
+        commit('SET_USER', user);
+      } catch (error) {
+        commit('LOGOUT');
+      }
+    },
+    async login({ dispatch }, { email, password }) {
+      await loginUser(email, password);
+      await dispatch('fetchUser');
     },
     async logout({ commit }) {
-      try {
-        await logoutUser();
-        commit('LOGOUT');
-      } catch (error) {
-        console.error('Ошибка при выходе:', error);
-        throw error;
-      }
+      await logoutUser();
+      commit('LOGOUT');
     },
   },
   getters: {

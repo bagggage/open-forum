@@ -38,3 +38,9 @@ export const fetchTags = () =>
 
 export const createAnswer = (answerData) =>
   handleRequest(() => apiClient.post('/v1/answers/', answerData));
+
+export const fetchCurrentUser = () =>
+  handleRequest(() => apiClient.get('/v1/users/'));
+
+export const fetchQuestionsByUser = () =>
+  handleRequest(() => apiClient.get('/v1/questions/by-user/'));
