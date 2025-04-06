@@ -1,6 +1,6 @@
 <template>
     <div class="create-question-page">
-      <h1 class="text-3xl font-bold mb-6">Создать вопрос</h1>
+      <h1 class="text-3xl font-bold mb-6">Задать вопрос</h1>
       <form @submit.prevent="submitQuestion" class="space-y-4">
         <div>
           <label for="title" class="block text-sm font-medium text-gray-700">Заголовок</label>

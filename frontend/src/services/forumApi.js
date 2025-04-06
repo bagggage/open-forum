@@ -41,3 +41,6 @@ export const createAnswer = (answerData) =>
 
 export const fetchCurrentUser = () =>
   handleRequest(() => apiClient.get('/v1/users/'));
+
+export const fetchQuestionsByUser = () =>
+  handleRequest(() => apiClient.get('/v1/questions/by-user/'));

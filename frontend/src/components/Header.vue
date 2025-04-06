@@ -10,7 +10,7 @@
           to="/ask"
           class="text-white hover:text-gray-300"
         >
-          Создать вопрос
+          Задать вопрос
         </router-link>
         <router-link v-if="!isAuthenticated" to="/login" class="text-white hover:text-gray-300">Вход</router-link>
         <router-link v-else to="/profile" class="text-white hover:text-gray-300">Личный кабинет</router-link>
