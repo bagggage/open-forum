@@ -10,6 +10,22 @@
           <span class="mx-2">•</span>
           <span>{{ formatDate(question.creation_time) }}</span>
         </div>
+        <div v-if="question.category_name" class="mt-2">
+          <strong>Категория:</strong>
+          <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full ml-2">
+            {{ question.category_name }}
+          </span>
+        </div>
+        <div v-if="question.tag_names && question.tag_names.length" class="mt-2">
+          <strong>Теги:</strong>
+          <span
+            v-for="tag in question.tag_names"
+            :key="tag"
+            class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full ml-2"
+          >
+            {{ tag }}
+          </span>
+        </div>
       </li>
     </ul>
     <p v-else>Нет вопросов, соответствующих вашему запросу.</p>
