@@ -11,7 +11,7 @@
       <button
         @click="prevPage"
         :disabled="currentPage === 0"
-        class="px-4 py-2 bg-gray-200 text-gray-700 rounded disabled:opacity-50"
+        class="btn"
       >
         Предыдущая
       </button>
@@ -19,7 +19,7 @@
       <button
         @click="nextPage"
         :disabled="!hasMorePages"
-        class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+        class="btn"
       >
         Следующая
       </button>

@@ -48,7 +48,7 @@
           <button
             type="button"
             @click="addTag"
-            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="btn"
           >
             Добавить тег
           </button>
@@ -66,7 +66,7 @@
       </div>
       <button
         type="submit"
-        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="btn w-full"
       >
         Создать
       </button>

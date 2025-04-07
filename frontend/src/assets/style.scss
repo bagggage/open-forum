@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $main-width: 55rem;
 
 $grand-font: "Space Grotesk",Inter,Ubuntu,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
@@ -7,6 +9,8 @@ $code-font: "";
 $bg-color: #FFFFFF;
 $primary-color: #197AFF;
 $secondary-color: #197AFF33;
+$red-color: #ff2d2d;
+$gray-color: #8D9298;
 
 $border-color: #00000014;
 
@@ -24,6 +28,11 @@ $light-radius: 0.5rem;
 $fine-radius: 0.7rem;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+    --btn-color: #197AFF;
+    --btn-text-color: #FFFFFF;
+}
 
 body {
     font-family: $grand-font;
@@ -101,6 +110,32 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.main-container button {
+    transition: background-color 0.2s;
+
+    padding: 0.5rem;
+
+    border-radius: $light-radius;
+}
+
+.btn {
+    color: var(--btn-text-color);
+    background-color: var(--btn-color);
+}
+
+.btn:hover {
+    transition: background-color 0.2s;
+    //color.mix(var(--btn-color), black, 90%);
+}
+
+.btn-red {
+    --btn-color: #FF2D2D;
+}
+
+.btn:disabled {
+    background-color: $gray-color;
+}
+
 .link-btn {
     transition: all 0.2s;
 
@@ -152,6 +187,22 @@ li:last-child > .question-preview {
     align-items: center;
 
     span { color: $bg-text-s-color; }
+}
+
+.question-title {
+    padding: 0.25rem;
+
+    border-radius: $fine-radius;
+
+    color: $primary-color;
+    background-color: $secondary-color;
+}
+
+.answer-item {
+    padding: 1rem;
+
+    border: $light-border;
+    border-radius: $fine-radius;
 }
 
 .page-bar {
