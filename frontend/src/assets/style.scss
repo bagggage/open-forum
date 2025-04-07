@@ -9,6 +9,8 @@ $code-font: "";
 $bg-color: #FFFFFF;
 $primary-color: #197AFF;
 $secondary-color: #197AFF33;
+$accent-color: #FAB431;
+$accent-secondary-color: #FFF1D7;
 $red-color: #ff2d2d;
 $gray-color: #8D9298;
 
@@ -118,6 +120,37 @@ body {
     border-radius: $light-radius;
 }
 
+.main-container input, .main-container textarea {
+    margin-top: 0.25rem;
+
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+
+    border: $light-border;
+    border-radius: $light-radius;
+
+    outline-color: $primary-color;
+}
+
+.main-container select {
+    transition: outline-color 0.2s;
+
+    margin-top: 0.25rem;
+
+    padding: 0.5rem;
+
+    border: $light-border;
+    border-radius: $light-radius;
+
+    color: $bg-text-color;
+    background-color: $bg-color;
+
+    outline-color: $primary-color;
+}
+
+.prime-color {
+    color: $primary-color;
+}
+
 .btn {
     color: var(--btn-text-color);
     background-color: var(--btn-color);
@@ -194,8 +227,8 @@ li:last-child > .question-preview {
 
     border-radius: $fine-radius;
 
-    color: $primary-color;
-    background-color: $secondary-color;
+    color: $accent-color;
+    background-color: $accent-secondary-color;
 }
 
 .answer-item {
@@ -222,4 +255,17 @@ li:last-child > .question-preview {
 
     margin: auto;
     width: fit-content;
+}
+
+.profile-panel {
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    border: $light-border;
+    border-color: $primary-color;
+    border-radius: $fine-radius;
+
+    p {
+        color: $bg-text-color;
+    }
 }

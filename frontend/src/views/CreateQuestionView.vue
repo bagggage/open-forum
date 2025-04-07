@@ -4,31 +4,15 @@
     <form @submit.prevent="submitQuestion" class="space-y-4">
       <div>
         <label for="title" class="block text-sm font-medium text-gray-700">Заголовок</label>
-        <input
-          type="text"
-          id="title"
-          v-model="title"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-        />
+        <input type="text" id="title" v-model="title" required class="w-full" />
       </div>
       <div>
         <label for="text" class="block text-sm font-medium text-gray-700">Текст вопроса</label>
-        <textarea
-          id="text"
-          v-model="text"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-        />
+        <textarea id="text" v-model="text" required class="w-full" />
       </div>
       <div>
         <label for="category" class="block text-sm font-medium text-gray-700">Категория</label>
-        <select
-          id="category"
-          v-model="category"
-          required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-        >
+        <select id="category" v-model="category" required class="w-full">
           <option v-for="cat in categories" :key="cat.id" :value="cat.name">
             {{ cat.name }}
           </option>
@@ -37,10 +21,7 @@
       <div>
         <label class="block text-sm font-medium text-gray-700">Теги</label>
         <div class="flex items-center space-x-2 mb-2">
-          <select
-            v-model="selectedTag"
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
+          <select v-model="selectedTag" class=" w-full">
             <option v-for="tag in availableTags" :key="tag.id" :value="tag.name">
               {{ tag.name }}
             </option>

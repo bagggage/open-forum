@@ -1,7 +1,7 @@
 <template>
   <div class="profile-page">
-    <h1>Личный кабинет</h1>
-    <div v-if="user" class="bg-white shadow-md rounded-lg p-4">
+    <h1 class="prime-color">Личный кабинет</h1>
+    <div v-if="user" class="profile-panel">
       <p><strong>Имя:</strong> {{ user.name }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
       <p><strong>Роль:</strong> {{ user.role_name }}</p>
@@ -9,7 +9,7 @@
     </div>
     
     <div v-if="user">
-      <h2 class="text-2xl font-bold mb-4">Мои вопросы</h2>
+      <h2>Мои вопросы</h2>
       <QuestionList :questions="userQuestions"/>
     </div>
     <p v-else>Загрузка...</p>

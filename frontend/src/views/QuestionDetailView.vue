@@ -18,18 +18,8 @@
       <div v-if="isAuthenticated" class="mb-8">
         <h3 class="text-xl font-bold mb-4">Ваш ответ</h3>
         <form @submit.prevent="submitAnswer" class="space-y-4">
-          <textarea
-            v-model="newAnswer"
-            required
-            placeholder="Напишите ваш ответ..."
-            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-          <button
-            type="submit"
-            class="btn"
-          >
-            Отправить ответ
-          </button>
+          <textarea v-model="newAnswer" required placeholder="Напишите ваш ответ..." class="w-full" />
+          <button type="submit" class="btn">Отправить ответ</button>
         </form>
       </div>
     </div>
