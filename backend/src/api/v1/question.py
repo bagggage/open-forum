@@ -13,6 +13,7 @@ from src.service.question import get_question_service
 from src.service.question import delete_question_service
 from src.service.question import update_question_service
 from src.service.question import get_questions_by_category_name_service
+from src.service.question import get_questions_by_user_service
 from src.models import User
 from typing import List
 
@@ -28,8 +29,7 @@ async def create_question(
     db: AsyncSession = Depends(get_async_session,),
     user: User = Depends(current_user)
 ):
-    question = await create_question_service(db, question_data, user.id)
-    return QuestionResponse.from_orm(question) 
+    return await create_question_service(db, question_data, user.id) 
 
 @router.get(
     "/", 
@@ -41,8 +41,7 @@ async def get_questions(
     limit: int = 10,
     db: AsyncSession = Depends(get_async_session)
 ):
-    questions = await get_questions_service(db, skip, limit)
-    return [QuestionResponse.from_orm(q) for q in questions]
+    return await get_questions_service(db, skip, limit)
 
 @router.get(
     "/{question_id}", 
@@ -53,20 +52,31 @@ async def get_question(
     question_id: int,
     db: AsyncSession = Depends(get_async_session)
 ):
-    question = await get_question_service(db, question_id)
-    return QuestionResponse.from_orm(question)
+    return await get_question_service(db, question_id)
 
 @router.get(
     "/by-category/",
     response_model=List[QuestionResponse], 
-    summary="Get all questions by category name"
+    summary="Get all questions by category name with pagination"
 )
 async def get_questions_by_category_name(
     category: str, 
+    skip: int = 0,
+    limit: int = 10,
     db: AsyncSession = Depends(get_async_session)
 ):
-    questions = await get_questions_by_category_name_service(db, category)
-    return [QuestionResponse.from_orm(q) for q in questions]
+    return await get_questions_by_category_name_service(db, category, skip, limit)
+
+@router.get(
+    "/by-user/",
+    response_model=List[QuestionResponse], 
+    summary="Get all questions by user that creates it"
+)
+async def get_questions_by_user(
+    db: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_user)
+):
+    return await get_questions_by_user_service(db, user)
 
 @router.delete(
     "/{question_id}",

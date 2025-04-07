@@ -1,0 +1,271 @@
+@use 'sass:color';
+
+$main-width: 55rem;
+
+$grand-font: "Space Grotesk",Inter,Ubuntu,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+$text-font: "";
+$code-font: "";
+
+$bg-color: #FFFFFF;
+$primary-color: #197AFF;
+$secondary-color: #197AFF33;
+$accent-color: #FAB431;
+$accent-secondary-color: #FFF1D7;
+$red-color: #ff2d2d;
+$gray-color: #8D9298;
+
+$border-color: #00000014;
+
+$bg-text-color: #1B2430;
+$bg-text-color-l: #495059;
+$bg-text-s-color: #1b24305c;
+$primary-text-color: #FFFFFF;
+$secondary-text-color: $primary-color;
+
+$header-color: $primary-color;
+
+$light-border: solid 2px $border-color;
+
+$light-radius: 0.5rem;
+$fine-radius: 0.7rem;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+    --btn-color: #197AFF;
+    --btn-text-color: #FFFFFF;
+}
+
+body {
+    font-family: $grand-font;
+
+    color: $bg-text-color;
+    background-color: $bg-color;
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container {
+    max-width: $main-width;
+    width: 90%;
+
+    margin: 0 auto;
+    padding: 1.5rem 0 1.5rem 0;
+}
+
+.header {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+
+    border-bottom: $light-border;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1rem;
+
+    color: $primary-color;
+
+    padding: 0.5rem;
+
+    background-color: $secondary-color;
+    border-radius: $fine-radius;
+}
+
+.main-container h1 {
+    font-weight: 700;
+
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.main-container h2 {
+    font-weight: 700;
+
+    font-size: 1.5rem;
+    line-height: 2rem;
+
+    margin-bottom: 1rem;
+}
+
+.main-container h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+
+    margin-bottom: 1rem;
+}
+
+.main-container p {
+    margin-bottom: 1rem;
+
+    color: $bg-text-color-l;
+}
+
+.main-container hr {
+    border-top: $light-border;
+
+    margin-bottom: 1.5rem;
+}
+
+.main-container button {
+    transition: background-color 0.2s;
+
+    padding: 0.5rem;
+
+    border-radius: $light-radius;
+}
+
+.main-container input, .main-container textarea {
+    margin-top: 0.25rem;
+
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+
+    border: $light-border;
+    border-radius: $light-radius;
+
+    outline-color: $primary-color;
+}
+
+.main-container select {
+    transition: outline-color 0.2s;
+
+    margin-top: 0.25rem;
+
+    padding: 0.5rem;
+
+    border: $light-border;
+    border-radius: $light-radius;
+
+    color: $bg-text-color;
+    background-color: $bg-color;
+
+    outline-color: $primary-color;
+}
+
+.prime-color {
+    color: $primary-color;
+}
+
+.btn {
+    color: var(--btn-text-color);
+    background-color: var(--btn-color);
+}
+
+.btn:hover {
+    transition: background-color 0.2s;
+    //color.mix(var(--btn-color), black, 90%);
+}
+
+.btn-red {
+    --btn-color: #FF2D2D;
+}
+
+.btn:disabled {
+    background-color: $gray-color;
+}
+
+.link-btn {
+    transition: all 0.2s;
+
+    border: $light-border;
+    border-color: transparent;
+    border-radius: $light-radius;
+
+    padding: 0.5rem;
+}
+
+.link-btn:hover {
+    transition: all 0.2s;
+    
+    color: $primary-color;
+    border-color: $secondary-color;
+}
+
+.question-list {
+    border: $light-border;
+    border-radius: $fine-radius;
+}
+
+.question-preview {
+    transition: border-color, background-color 0.2s;
+
+    border-bottom: $light-border;
+    border-color: $border-color;
+
+    padding: 0.7rem;
+
+    h3 { transition: color 0.2s; }
+    h3:hover {
+        transition: color 0.2s;
+        color: $primary-color;
+    }
+    span {
+        color: $bg-text-s-color;
+    }
+}
+
+li:last-child > .question-preview {
+    border: none;
+}
+
+.question-bar {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    span { color: $bg-text-s-color; }
+}
+
+.question-title {
+    padding: 0.25rem;
+
+    border-radius: $fine-radius;
+
+    color: $accent-color;
+    background-color: $accent-secondary-color;
+}
+
+.answer-item {
+    padding: 1rem;
+
+    border: $light-border;
+    border-radius: $fine-radius;
+}
+
+.page-bar {
+    display: flex;
+
+    width: 80%;
+    margin: auto;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 1.5rem;
+}
+
+.login-page, .register-page {
+    h1 { text-align: center; }
+
+    margin: auto;
+    width: fit-content;
+}
+
+.profile-panel {
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    border: $light-border;
+    border-color: $primary-color;
+    border-radius: $fine-radius;
+
+    p {
+        color: $bg-text-color;
+    }
+}

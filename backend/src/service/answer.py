@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.schemas.answer import AnswerCreate
+from src.schemas.answer import AnswerResponse
 from src.repositories.question import get_question_by_id
 from src.repositories.answer import create_answer
 from src.repositories.answer import get_answer_by_id
@@ -8,6 +9,7 @@ from src.repositories.answer import get_all_answers
 from src.repositories.answer import get_answers_by_question
 from src.repositories.answer import delete_answer
 from src.repositories.answer import update_best_answer
+from src.repositories.user import get_user_by_id
 
 async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, user_id: int):
     question = await get_question_by_id(db, answer_data.question_id)
@@ -15,7 +17,9 @@ async def create_answer_service(db: AsyncSession, answer_data: AnswerCreate, use
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
 
-    return await create_answer(db, answer_data, user_id)
+    created_answer = await create_answer(db, answer_data, user_id)
+    user = await get_user_by_id(db, created_answer.user_id)
+    return AnswerResponse.from_orm(created_answer, user_name=user.name)
 
 async def get_answer_service(db: AsyncSession, answer_id: int):
     answer = await get_answer_by_id(db, answer_id)
@@ -34,7 +38,15 @@ async def get_answers_by_question_service(db: AsyncSession, question_id: int):
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
 
-    return await get_answers_by_question(db, question_id)
+    answers = await get_answers_by_question(db, question_id)
+
+    result = []
+    for answer in answers:
+        user = await get_user_by_id(db, answer.user_id)
+        answer_response = AnswerResponse.from_orm(answer, user_name=user.name)
+        result.append(answer_response)
+
+    return result
 
 async def update_best_answer_service(db: AsyncSession, answer_id: int, user_id: int):
     answer = await get_answer_by_id(db, answer_id)

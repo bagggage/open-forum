@@ -30,11 +30,26 @@ async def get_question_by_id(db: AsyncSession, question_id: int):
     )
     return result.scalars().first()
 
-async def get_questions_by_category(db: AsyncSession, category_id: int):
+async def get_questions_by_category(
+    db: AsyncSession, 
+    category_id: int, 
+    skip: int = 0, 
+    limit: int = 10
+):
     result = await db.execute(
         select(Question)
         .options(joinedload(Question.category), joinedload(Question.tag))
         .where(Question.category_id == category_id)
+        .offset(skip)
+        .limit(limit)
+    )
+    return result.unique().scalars().all()
+
+async def get_questions_by_user(db: AsyncSession, user_id: int):
+    result = await db.execute(
+        select(Question)
+        .options(joinedload(Question.category), joinedload(Question.tag))
+        .where(Question.user_id == user_id)
     )
     return result.unique().scalars().all()
 
