@@ -1,7 +1,7 @@
 <template>
     <div class="question-detail">
       <div class="question-bar">
-        <h1>{{ question.title }}</h1>
+        <h1 class="question-title">{{ question.title }}</h1>
         <div class="flex items-center mb-4">
           <span>{{ question.user_name }}</span>
           <span class="mx-2">•</span>
@@ -12,16 +12,7 @@
       <hr/>
       <h2>Ответы</h2>
 
-      <ul class="space-y-4">
-        <li v-for="answer in answers" :key="answer.id" class="bg-white shadow-md rounded-lg p-4">
-          <p>{{ answer.text }}</p>
-          <div class="flex items-center mt-2 text-sm text-gray-500">
-            <span>{{ answer.user_name }}</span>
-            <span class="mx-2">•</span>
-            <span>{{ formatDate(answer.creation_time) }}</span>
-          </div>
-        </li>
-      </ul>
+      <AnswerList :answers=answers />
 
       <!-- Форма ответа для авторизованных пользователей -->
       <div v-if="isAuthenticated" class="mb-8">
@@ -35,7 +26,7 @@
           />
           <button
             type="submit"
-            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="btn"
           >
             Отправить ответ
           </button>
@@ -49,8 +40,10 @@
   import { useRoute } from 'vue-router';
   import { useStore } from 'vuex';
   import { fetchQuestionById, fetchAnswersByQuestionId, createAnswer } from '@/services/forumApi';
+  import AnswerList from '@/components/AnswerList.vue'
   
   export default {
+    components: { AnswerList },
     setup() {
       const store = useStore();
       const route = useRoute();
